@@ -1,0 +1,71 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<h:form id="periodChooseForm">
+	<h:panelGroup id="periodChooseBlock" layout="block" style="font-size: medium; float: right;">
+	<h:panelGrid columns="6">
+<!-- START DATE -->			
+	<h:outputText value="#{texts.applicationStartDate}:" />
+	<p:calendar
+		id="startDate"
+		widgetVar="startDateCalendar"
+		styleClass="dateInput"
+		readonlyInput="true"
+		value="#{vehiclesListBean.startDate}"
+		pattern="dd.mm.yyyy">
+		<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+		<p:ajax event="dateSelect" update=":vehiclesListForm:vehiclesTable" />
+	</p:calendar>
+	<p:commandButton
+		icon="cancelButtonIcon"
+		style="height: 33px; width: 35px;" 
+		action="#{vehiclesListBean.setStartDate(null)}"
+		onclick="startDateCalendar.setDate(null)"
+		process="@this"
+		update=":vehiclesListForm:vehiclesTable" />		
+<!-- END DATE -->			
+	<h:outputText value="#{texts.applicationEndDate}:" />
+	<p:calendar
+		id="endDate"
+		widgetVar="endDateCalendar"
+		styleClass="dateInput"
+		readonlyInput="true"
+		value="#{vehiclesListBean.endDate}"
+		pattern="dd.mm.yyyy">
+		<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+		<p:ajax event="dateSelect" update=":vehiclesListForm:vehiclesTable" />
+	</p:calendar>
+	<p:commandButton
+		icon="cancelButtonIcon"
+		style="height: 33px; width: 35px;" 
+		action="#{vehiclesListBean.setEndDate(null)}"
+		onclick="endDateCalendar.setDate(null)"
+		process="@this"
+		update=":vehiclesListForm:vehiclesTable" />
+	</h:panelGrid>
+	</h:panelGroup>
+</h:form>
+
+<!-- HEADER TEXT -->
+	<h:outputText value="#{texts.vehiclesListStaffHeader}" styleClass="listFormHeader" />
+
+<!-- DATA TABLE WITH VEHICLES -->	
+	<ui:include src="/content/staff/vehicleListContent.xhtml" />
+	
+	<h:form>
+<!-- ADD BUTTON -->	
+		<br />
+		<p:commandButton
+			value="#{texts.vehiclesListAdd}"
+			action="#{vehiclesListBean.openVehicle(null)}"
+			icon="addButtonIcon" />
+	</h:form>
+
+</ui:define>
+
+</ui:composition>

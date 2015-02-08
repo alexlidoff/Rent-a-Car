@@ -1,0 +1,170 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER TEXT -->
+	<h:outputText
+		value="#{texts.clientProfileRegistration}"
+		styleClass="listFormHeader"
+		rendered="#{clientBean.client.id == null}" />
+	<h:outputText
+		value="#{texts.clientProfileEditing}"
+		styleClass="listFormHeader"
+		rendered="#{clientBean.client.id != null}" />
+
+<!-- CLIENT PROFILE FORM -->	
+	<h:form id="clientForm">
+	<p:layout style="min-width:800px;min-height:370px;height:370px;">
+	
+	<p:layoutUnit position="west" size="800" styleClass="clientProfileForm">
+	
+		<h:panelGrid columns="3">
+<!-- E-MAIL -->
+			<h:outputText value="#{texts.clientProfileEmail} *" />
+			<p:inputText
+				id="email"
+				value="#{clientBean.client.email}"
+				required="true"
+				disabled="#{clientBean.client.id != null and not userBean.isUserStaff()}"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{validators.validateEmail}" />
+			<p:message for="email" display="text" />
+<!-- FIRST NAME -->			
+			<h:outputText value="#{texts.clientProfileFirstName} *" />
+			<p:inputText
+				id="firstName"
+				value="#{clientBean.client.firstName}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="firstName" display="text" />
+<!-- LAST NAME -->			
+			<h:outputText value="#{texts.clientProfileLastName} *" />
+			<p:inputText
+				id="lastName"
+				value="#{clientBean.client.lastName}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="lastName" display="text" />
+<!-- ITIN -->			
+			<h:outputText value="#{texts.clientProfileITIN} *" />
+			<p:inputText
+				id="ITIN"
+				value="#{clientBean.client.ITIN}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{clientBean.validateITIN}" />
+			<p:message for="ITIN" display="text" />
+<!-- DRIVING LICENSE -->			
+			<h:outputText value="#{texts.clientProfileDrivingLicense} *" />
+			<p:inputText
+				id="drivingLicense"
+				value="#{clientBean.client.drivingLicense}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="drivingLicense" display="text" />
+<!-- PHONE -->			
+			<h:outputText value="#{texts.clientProfilePhone} *" />
+			<p:inputText
+				id="phone"
+				value="#{clientBean.client.phone}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="phone" display="text" />
+			<br />
+			<h:outputText value="" />
+			<h:outputText value="" />
+<!-- ZIP CODE -->			
+			<h:outputText value="#{texts.clientProfileZipCode}" />
+			<p:inputText
+				id="zipCode"
+				value="#{clientBean.address.zipCode}"
+				validator="#{validators.validateZIPCode}" />
+			<p:message for="zipCode" display="text" />
+<!-- CITY -->			
+			<h:outputText value="#{texts.clientProfileCity}" />
+			<p:inputText
+				id="city"
+				value="#{clientBean.address.city}"/>
+			<p:message for="city" display="text" />
+<!-- STREET -->			
+			<h:outputText value="#{texts.clientProfileStreet}" />
+			<p:inputText
+				id="street"
+				value="#{clientBean.address.street}"/>
+			<p:message for="street" display="text" />
+<!-- ADDRESS -->			
+			<h:outputText value="#{texts.clientProfileAddress}" />
+			<p:inputText
+				id="address"
+				value="#{clientBean.address.address}"/>
+			<p:message for="address" display="text" />
+
+		</h:panelGrid>
+		
+	</p:layoutUnit>
+
+	<p:layoutUnit position="center" styleClass="clientProfileForm">
+			
+		<p:fieldset
+			legend="#{clientBean.passwordPanelHeader}" 
+			toggleable="#{not clientBean.mustEnterPasswords}" 
+			collapsed="#{not clientBean.mustEnterPasswords}" >
+		<h:panelGrid columns="2">
+<!-- PASSWORD1 -->			
+			<h:outputText value="#{texts.clientProfilePassword1} *" />
+			<p:password
+				id="password1"
+				value="#{clientBean.password1}"
+				required="#{clientBean.mustEnterPasswords}"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{validators.validatePassword}" />
+			<h:outputText value="" />
+			<p:message id="password1Message" for="password1" display="text" />
+<!-- PASSWORD2 -->			
+			<h:outputText value="#{texts.clientProfilePassword2} *" />
+			<p:password
+				id="password2"
+				value="#{clientBean.password2}"
+				required="#{clientBean.mustEnterPasswords}"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{validators.validatePassword}" />
+			<h:outputText value="" />
+			<p:message id="password2Message" for="password2" display="text" />
+<!-- PASSWORDS ARE NOT EQUAL MESSAGE -->
+			<h:outputText value="" />
+			<p:messages id="passwordsNotEqual" globalOnly="false" severity="warn" />			
+			
+		</h:panelGrid>
+		</p:fieldset>
+		
+	</p:layoutUnit>
+	
+	</p:layout>
+		
+	<br />
+	<h:outputText value="#{texts.requiredFields}" />
+
+<!-- BUTTONS -->		
+		<br /><br />
+		<p:commandButton
+			value="#{texts.saveProfileButton}"
+			icon="okButtonIcon"
+			action="#{clientBean.saveClient}"
+			process="@form"
+			update="@form :growl" />
+		<p:commandButton
+			value="#{texts.cancelButton}"
+			icon="cancelButtonIcon"
+			action="#{clientBean.closeClientProfileForm}"
+			process="@this"
+			update="@none" />
+								
+	</h:form>
+
+</ui:define>
+	
+</ui:composition>

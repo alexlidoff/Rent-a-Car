@@ -1,0 +1,115 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+	
+	<h:outputText value="#{texts.applicationsListHeader}" styleClass="listFormHeader" />
+	<br />
+	
+<!-- NO APPLICATIONS -->	
+	<h:outputText
+		value="#{texts.applicationsListEmpty}"
+		rendered="#{empty applicationsListBean.clientApplications}" />
+	<br />
+	
+	<p:accordionPanel
+		value="#{applicationsListBean.clientApplications}"
+		var="app"
+		cache="false"
+		multiple="true"
+		rendered="#{not empty applicationsListBean.clientApplications}">
+		
+		<p:tab
+			title="&lt;span class='tabTitleText1' &gt;#{app.vehicle.name}&lt;/span&gt;
+			&lt;span class='tabTitleText2' &gt;#{texts.applicationID}: #{app.id}          &lt;/span&gt;
+			#{texts.applicationStatus}: #{app.applicationStatus}
+			&lt;span class='tabTitleText3' &gt;          #{applicationsListBean.getNotPaidText(app)}&lt;/span&gt;"
+			titleStyle="white-space: pre;">
+			
+			<h:panelGrid columns="2" cellpadding="10">
+<!-- PHOTO -->			
+				<p:graphicImage value="#{imageBean.image}" styleClass="vehicleSmallPhoto" cache="false">
+					<f:param name="vehicleId" value="#{app.vehicle.id}" />
+				</p:graphicImage>
+				
+				<h:panelGroup>
+				<h:panelGrid columns="5" styleClass="applicationTable">
+<!-- PAY LINK -->
+					<h:panelGroup>
+					<h:form rendered="#{not empty applicationsListBean.getNotPaidText(app)}" style="margin-bottom: 15px;">
+					<h:commandLink
+						value="#{texts.applicationPayNow}"
+						action="#{applicationsListBean.makePayment(app)}"
+						styleClass="payLink" />
+					</h:form>
+					</h:panelGroup>
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="" />
+					<h:outputText value="" />				
+<!-- VEHICLE PROPERTIES -->					
+					<h:outputText value="#{texts.applicationVehicle}:" />
+					<h:outputText value="#{app.vehicle.name}" style="font-weight: bold;" />
+					<p:spacer width="20" />
+					<h:outputText value="#{texts.vehicleYear}:" />
+					<h:outputText value="#{app.vehicle.year}" />
+					<h:outputText value="#{texts.vehicleClass}:" />
+					<h:outputText value="#{app.vehicle.vehicleClass}" />
+					<p:spacer width="20" />
+					<h:outputText value="#{texts.vehicleType}:" />
+					<h:outputText value="#{app.vehicle.vehicleType.name}" />
+					<h:outputText value="#{texts.vehicleEngine}:" />
+					<h:outputText value="#{app.vehicle.engine}" />
+					<p:spacer width="20" />
+					<h:outputText value="#{texts.vehicleGearbox}:" />
+					<h:outputText value="#{app.vehicle.gearbox}">
+						<f:converter converterId="Rent-a-Car.service.converters.GearboxConverter" />
+					</h:outputText>
+					<h:outputText value="#{texts.vehicleDrive}:" />
+					<h:outputText value="#{app.vehicle.drive}">
+						<f:converter converterId="Rent-a-Car.service.converters.DriveConverter" />
+					</h:outputText>
+					<p:spacer width="20" />
+<!-- APPLICATION PROPERTIES -->					
+					<h:outputText value="#{texts.applicationRentPeriod}:" />
+					<h:panelGroup style="font-weight: bold;">
+					<h:outputText value="#{app.startDate}">
+						<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+					</h:outputText>
+					<h:outputText value=" - " />
+					<h:outputText value="#{app.endDate}">
+						<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+					</h:outputText>
+					</h:panelGroup>
+					<h:outputText value="#{texts.applicationAmount}:" />
+					<h:outputText value="#{app.amount}$" style="font-weight: bold;" />
+					<p:spacer width="20" />
+					<h:outputText value="#{texts.applicationExtraPayment}:" />
+					<h:panelGroup style="font-weight: bold;">
+					<h:outputText value="#{app.extraPayment}$" rendered="#{app.extraPayment gt 0}" />
+					</h:panelGroup>
+					<h:outputText value="#{texts.applicationManager}:" />
+					<h:outputText value="#{app.applicationManager.firstName} #{app.applicationManager.lastName}" style="text-decoration: underline;" />
+				
+				</h:panelGrid>
+<!-- NOTES -->				
+				<h:panelGroup rendered="#{not empty app.note}" layout="block" style="padding-left: 30px;">
+					<br />
+					<h:outputText value="#{texts.applicationNote}:" style="font-weight: bold;" />
+					<br />
+					<h:outputText value="#{app.note}" style="font-style: italic;" />
+				</h:panelGroup>				
+				</h:panelGroup>
+						
+			</h:panelGrid>
+			
+		</p:tab>
+		
+	</p:accordionPanel>
+
+</ui:define>
+
+</ui:composition>

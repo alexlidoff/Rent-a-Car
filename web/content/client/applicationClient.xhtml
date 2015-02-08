@@ -1,0 +1,149 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- BACK TO CARS LIST LINK -->
+	<h:form>
+		<h:commandLink
+			value="#{texts.backToVehicleListLink}"
+			style="font-size: large;"
+			action="viewCarsForRent" />
+	</h:form>
+	<br />
+
+
+<!-- HEADER TEXT -->	
+	<h:outputText value="#{texts.applicationClientHeader}:" styleClass="listFormHeader" />
+	<br />
+	
+	<h:form id="applicationForm">
+	<p:layout style="min-width:800px;min-height:290px;height:290px;">
+	
+<!-- FIELDS SECTION	-->
+	<p:layoutUnit position="west" size="800" styleClass="vehicleFieldsSection">	
+	  
+		<h:panelGrid columns="3">
+			<br />
+			<h:outputText value="" />
+			<h:outputText value="" />
+<!-- CLIENT -->		
+			<h:outputText value="#{texts.applicationClient}:" />
+			<h:outputText value="#{userBean.userName}" styleClass="clientNameApplicationForm" />
+			<h:outputText value="" />
+<!-- VEHICLE -->
+			<h:outputText value="#{texts.applicationVehicle}:" />
+			<h:outputText value="#{applicationBean.vehicle.name}" styleClass="vehicleNameApplicationForm" />
+<!-- VIEW SCHEDULE LINK -->		
+			<p:commandLink
+				actionListener="#{vehiclesListBean.vehicleScheduleClicked(applicationBean.vehicle)}"
+				value="#{texts.vehicleSchedule}"
+				oncomplete="PF('vehicleScheduleDialog').show();"
+				style="color: blue;"
+				process="@this"
+				update=":scheduleDialog" />
+<!-- PRICE -->			
+			<h:outputText value="#{texts.applicationPrice}: " />
+			<h:outputText value="#{applicationBean.vehicle.price}$" />
+			<h:outputText value="" />
+<!-- START DATE -->			
+			<h:outputText value="#{texts.applicationStartDate}:" />
+			<p:calendar
+				id="startDate"
+				value="#{applicationBean.startDate}"
+				pattern="dd.mm.yyyy"
+				mindate="#{applicationBean.minDate}"
+				readonlyInput="true"
+				required="true"
+				requiredMessage="#{texts.dateEmptyMessage}">
+				<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+				<p:ajax event="dateSelect" update="days amount startDateMessage periodMessage" listener="#{applicationBean.dateChanged}" />
+			</p:calendar>
+			<p:message for="applicationForm:startDate" display="text" id="startDateMessage" />
+<!-- END DATE -->				
+			<h:outputText value="#{texts.applicationEndDate}:" />
+			<p:calendar
+				id="endDate"
+				value="#{applicationBean.endDate}"
+				pattern="dd.mm.yyyy"
+				mindate="#{applicationBean.minDate}"
+				readonlyInput="true"
+				required="true"
+				requiredMessage="#{texts.dateEmptyMessage}">
+				<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+				<p:ajax event="dateSelect" update="days amount endDateMessage periodMessage" listener="#{applicationBean.dateChanged}" />
+			</p:calendar>
+			<p:message for="applicationForm:endDate" display="text" id="endDateMessage" />
+<!-- INVALID PERIOD MESSAGE -->
+			<h:outputText value="" />
+			<p:messages id="periodMessage" globalOnly="true" severity="warn" />
+			<h:outputText value="" />			
+<!-- DAYS -->				
+			<h:outputText value="#{texts.applicationDays}:" />
+			<h:outputText value="#{applicationBean.days}" id="days" styleClass="calculatedValueApplicationForm" />
+			<h:outputText value="" />			
+<!-- AMOUNT -->				
+			<h:outputText value="#{texts.applicationAmount}:" />
+			<h:outputText value="#{applicationBean.amount}$" id="amount" styleClass="calculatedValueApplicationForm" />
+			<h:outputText value="" />
+		</h:panelGrid>
+		
+	</p:layoutUnit>
+	
+<!-- VEHICLE PHOTO SECTION -->	
+	<p:layoutUnit position="center">
+		<h:panelGroup id="vehiclePhoto" layout="block" styleClass="vehicleImageContainer">			
+			<p:graphicImage value="#{imageBean.image}" styleClass="vehicleSmallPhoto" cache="false" style="padding-top: 35px;">
+				<f:param name="vehicleId" value="#{applicationBean.vehicle.id}" />
+			</p:graphicImage>
+		</h:panelGroup>
+	</p:layoutUnit>
+		
+	</p:layout>
+	
+	<br />
+	<p:selectBooleanCheckbox
+		value="#{applicationBean.userAgreement}">
+		<p:ajax process="@this" update="buttonApply" />
+	</p:selectBooleanCheckbox>
+	<h:outputText value=" #{texts.applicationUserAgreement}" />
+	<br />
+<!-- BUTTONS -->	
+		<p:commandButton
+			id="buttonApply"
+			value="#{texts.applyButton}"
+			icon="okButtonIcon"
+			action="#{applicationBean.saveApplication()}"
+			disabled="#{not applicationBean.userAgreement}"
+			process="@form"
+			update="@form" />
+		<p:commandButton
+			value="#{texts.cancelButton}"
+			icon="cancelButtonIcon"
+			action="viewCarsForRent"
+			process="@this" />
+	
+	</h:form>
+	
+	
+<!-- VEHICLE SCHEDULE DIALOG -->	
+<p:dialog
+	id="scheduleDialog"
+	widgetVar="vehicleScheduleDialog"
+	modal="true"
+	dynamic="true"
+	closeOnEscape="true"
+	height="360"
+	width="400"
+	resizable="false">
+		
+	<ui:include src="/content/client/vehicleSchedule.xhtml" />
+		
+</p:dialog>
+
+</ui:define>
+
+</ui:composition>

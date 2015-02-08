@@ -1,0 +1,21 @@
+<ui:composition
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:form>
+		
+		<p:schedule
+			id="vehicleSchedule"
+			value="#{vehSchBean.scheduleModel}"
+			showHeader="true"
+			allDaySlot="false"
+			draggable="false"
+			resizable="false"
+			style="overflow: hidden;">
+		</p:schedule>
+		
+	</h:form>
+
+</ui:composition>

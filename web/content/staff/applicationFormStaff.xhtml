@@ -1,0 +1,384 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER	-->
+	<h:outputText
+		value="#{texts.applicationFormEditHeader}"
+		styleClass="listFormHeader"
+		rendered="#{appStaffBean.application.id != null}" />
+	<h:outputText
+		value="#{texts.applicationFormAddHeader}"
+		styleClass="listFormHeader"
+		rendered="#{appStaffBean.application.id == null}" />
+	
+	<h:form id="applicationForm">
+		
+	<p:layout style="min-width:800px;min-height:480px;height:480px;">
+	
+<!-- FIELDS SECTION	-->
+	<p:layoutUnit position="west" size="800" styleClass="vehicleFieldsSection">
+		
+	<h:panelGrid columns="4">
+<!-- ID -->
+		<h:outputText value="#{texts.applicationID}: " />
+		<h:outputText value="#{appStaffBean.application.id}" styleClass="idApplicationForm" />
+		<h:outputText value="" />
+		<h:outputText value="" />
+<!-- CLIENT -->
+		<h:outputText value="#{texts.applicationClient}: " />
+		<p:commandButton
+			value="#{texts.applicationFormChooseClientButton}"
+			icon="clientsLinkIcon"
+			type="button"
+			styleClass="chooseButton"
+			onclick="PF('clientChooseDialog').show();"/>
+		<h:outputText value="" />
+		<h:panelGroup>
+		<h:outputText
+			value="#{appStaffBean.client.firstName} #{appStaffBean.client.lastName}"
+			styleClass="clientNameApplicationForm"
+			rendered="#{appStaffBean.client != null}"/>
+		<h:outputText
+			value="#{appStaffBean.clientProps}"
+			rendered="#{appStaffBean.client != null}"/>
+		<h:outputText
+			value="#{texts.applicationFormChooseClientMessage}"
+			styleClass="ui-message ui-message-error ui-message-error-detail"
+			rendered="#{appStaffBean.client == null}" />
+		</h:panelGroup>
+<!-- VEHICLE -->
+		<h:outputText value="#{texts.applicationVehicle}: " />
+		<p:commandButton
+			value="#{texts.applicationFormChooseVehicleButton}"
+			icon="vehiclesLinkIcon"
+			type="button"
+			styleClass="chooseButton"
+			onclick="PF('vehicleChooseDialog').show();" />
+		<h:outputText value="" />
+		<h:panelGroup>
+		<h:outputText
+			value="#{appStaffBean.vehicle.name}"
+			styleClass="vehicleNameApplicationForm"
+			rendered="#{appStaffBean.vehicle != null}" />
+		<h:outputText
+			value="#{appStaffBean.vehicleProps}"
+			rendered="#{appStaffBean.vehicle != null}" />
+		<h:outputText
+			value="#{texts.applicationFormChooseVehicleMessage}"
+			styleClass="ui-message ui-message-error ui-message-error-detail"
+			rendered="#{appStaffBean.vehicle == null}" />
+		</h:panelGroup>
+<!-- VIEW SCHEDULE LINK -->	
+		<h:outputText value="" />
+		<h:outputText value="" />
+		<h:outputText value="" />
+		<h:outputText value="" rendered="#{appStaffBean.vehicle == null}" />	
+		<p:commandLink
+			id="appVehicleScheduleLink"
+			actionListener="#{vehiclesListBean.vehicleScheduleClicked(appStaffBean.vehicle)}"
+			value="#{texts.vehicleSchedule}"
+			rendered="#{appStaffBean.vehicle != null}"
+			oncomplete="PF('appVehicleScheduleDialog').show();"
+			style="color: blue;"
+			process="@this"
+			update=":scheduleDialog" />		
+<!-- START DATE -->
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="" />
+		<h:outputText value="" />			
+		<h:outputText value="#{texts.applicationStartDate}" />
+		<p:calendar
+			id="startDate"
+			styleClass="inputApplicationForm"
+			value="#{appStaffBean.startDate}"
+			pattern="dd.mm.yyyy"
+			readonlyInput="true"
+			required="true"
+			requiredMessage="#{texts.dateEmptyMessage}">
+			<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+			<p:ajax event="dateSelect" update="days amount startDateMessage periodMessage" listener="#{appStaffBean.dateChanged}" />
+		</p:calendar>
+		<h:outputText value="" />
+		<p:message for="applicationForm:startDate" display="text" id="startDateMessage" />
+<!-- END DATE -->				
+		<h:outputText value="#{texts.applicationEndDate}" />
+		<p:calendar
+			id="endDate"
+			styleClass="inputApplicationForm"
+			value="#{appStaffBean.endDate}"
+			pattern="dd.mm.yyyy"
+			readonlyInput="true"
+			required="true"
+			requiredMessage="#{texts.dateEmptyMessage}">
+			<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+			<p:ajax event="dateSelect" update="days amount endDateMessage periodMessage" listener="#{appStaffBean.dateChanged}" />
+		</p:calendar>
+		<h:outputText value="" />
+		<p:message for="applicationForm:endDate" display="text" id="endDateMessage" />
+<!-- INVALID PERIOD MESSAGE -->		
+		<h:outputText value="" />
+		<p:messages id="periodMessage" globalOnly="true" severity="warn" />
+		<h:outputText value="" />
+		<h:outputText value="" />
+<!-- DAYS -->				
+		<h:outputText value="#{texts.applicationDays}" />
+		<h:outputText value="#{appStaffBean.days}" id="days" styleClass="calculatedValueApplicationForm" />
+		<h:outputText value="" />
+		<h:outputText value="" />			
+<!-- AMOUNT -->				
+		<h:outputText value="#{texts.applicationAmount} " />
+		<h:outputText value="#{appStaffBean.amount}$" id="amount" styleClass="calculatedValueApplicationForm" />
+<!-- AMOUNT PAID -->
+		<h:panelGrid columns="2">
+		<h:outputText value="#{texts.applicationPaid}" />
+		<p:selectBooleanCheckbox
+			value="#{appStaffBean.application.rentPaid}" />
+		</h:panelGrid>
+		<h:outputText value="" />
+<!-- EXTRA PAY -->
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="" />
+		<h:outputText value="" />				
+		<h:outputText value="#{texts.applicationExtraPayment} " />
+		<p:inputText
+			id="extraPayment"
+			styleClass="inputApplicationForm"
+			value="#{appStaffBean.application.extraPayment}"
+			converterMessage="#{texts.fieldIncorrectMessage}"
+			validator="#{validators.validatePrice}" />
+<!-- EXTRA PAID -->	
+		<h:panelGrid columns="2">			
+		<h:outputText value="#{texts.applicationPaid}" />
+		<p:selectBooleanCheckbox
+			value="#{appStaffBean.application.extraPaid}" />
+		</h:panelGrid>
+		<p:message for="extraPayment" display="text" />
+		
+	</h:panelGrid>
+	
+<!-- EXTRA PAYMENT NOTE -->
+	<h:outputText value="#{texts.applicationFormExtraPaymentNote}:"/>
+	<br />
+	<p:inputTextarea
+		rows="2" cols="120"
+		value="#{appStaffBean.application.extraPaymentNote}" />
+<!-- NOTE -->
+	<br />
+	<br />
+	<h:outputText value="#{texts.applicationFormNote}:"/>
+	<br />
+	<p:inputTextarea
+		rows="2" cols="120"
+		value="#{appStaffBean.application.note}" />								
+		
+	</p:layoutUnit>	
+	
+<!-- STATUS AND STAFF SECTION -->	
+	<p:layoutUnit position="center">
+	
+	<h:panelGrid columns="2">
+	
+<!-- STATUS -->
+		<h:outputText value="#{texts.applicationStatus}:"/>
+		<p:selectOneMenu
+			value="#{appStaffBean.application.applicationStatus}"
+			disabled="#{appStaffBean.application.applicationStatus == 'Closed' and not userBean.userAdmin}"
+			required="true">
+			<f:selectItems
+				value="#{appStaffBean.applicationStatuses}"
+				var="status"
+				itemLabel="#{status}" />
+			<f:converter converterId="Rent-a-Car.service.converters.ApplicationStatusConverter" />
+			<p:ajax update="applicationManager vehicleReleaseButton vehicleAcceptButton" listener="#{appStaffBean.statusChanged}" />
+		</p:selectOneMenu>
+<!-- APPLICATION MANAGER -->
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="#{texts.applicationFormAppManager}:"/>
+		<h:outputText value="" />
+		<h:outputText id="applicationManager"
+			styleClass="managerApplicationForm"
+			value="#{appStaffBean.application.applicationManager.firstName}   
+			#{appStaffBean.application.applicationManager.lastName}"/>
+		<h:panelGroup>
+		<p:commandButton
+			value="#{texts.applicationFormChooseManagerButton}"
+			icon="staffLinkIcon"
+			rendered="#{userBean.userAdmin}"
+			styleClass="chooseButton"
+			actionListener="#{appStaffBean.setManagerIndex('1')}"
+			onclick="PF('staffChooseDialog').show();"
+			process="@this"
+			update="applicationManager" />
+		</h:panelGroup>
+		<p:separator />
+		<p:separator />
+<!-- VEHICLE RELEASED -->
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="#{texts.applicationFormVehicleReleased}:"/>
+		<p:commandButton
+			id="vehicleReleaseButton"
+			style="width: 200px;"
+			icon="releaseVehicleButtonIcon"
+			value="#{texts.applicationFormReleaseVehicleButton}"
+			action="#{appStaffBean.releaseVehicle}"
+			disabled="#{appStaffBean.application.vehicleReleased or appStaffBean.application.applicationStatus != 'Accepted'}"
+			process="@this"
+			update="@this vehicleReleasedManager vehicleReleasingDate vehicleAcceptButton" />
+		<h:outputText id="vehicleReleasedManager"
+			styleClass="managerApplicationForm"
+			value="#{appStaffBean.application.releasedByManager.firstName}   
+			#{appStaffBean.application.releasedByManager.lastName}"/>
+		<h:panelGroup>
+		<p:commandButton
+			value="#{texts.applicationFormChooseManagerButton}"
+			icon="staffLinkIcon"
+			rendered="#{userBean.userAdmin}"
+			styleClass="chooseButton"
+			actionListener="#{appStaffBean.setManagerIndex('2')}"
+			onclick="PF('staffChooseDialog').show();"
+			process="@this"
+			update="vehicleReleasedManager" />
+		</h:panelGroup>
+		<h:outputText id="vehicleReleasingDate"
+			styleClass="dateTimeApplicationForm"
+			value="#{appStaffBean.application.vehicleReleasingDate}">
+			<f:converter converterId="Rent-a-Car.service.converters.DateTimeConverter" />
+		</h:outputText>
+		<h:outputText value="" />
+		
+		<p:separator />
+		<p:separator />
+<!-- VEHICLE ACCEPTED -->
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="#{texts.applicationFormVehicleAccepted}:"/>
+		<p:commandButton
+			id="vehicleAcceptButton"
+			style="width: 200px;"
+			icon="acceptVehicleButtonIcon"
+			value="#{texts.applicationFormAcceptVehicleButton}"
+			action="#{appStaffBean.acceptVehicle}"
+			disabled="#{not appStaffBean.application.vehicleReleased or appStaffBean.application.vehicleAccepted or appStaffBean.application.applicationStatus != 'Accepted'}"
+			process="@this"
+			update="@this vehicleAcceptedManager vehicleAcceptingDate" />
+		<h:outputText id="vehicleAcceptedManager"
+			styleClass="managerApplicationForm"
+			value="#{appStaffBean.application.acceptedByManager.firstName}   
+			#{appStaffBean.application.acceptedByManager.lastName}"/>
+		<h:panelGroup>
+		<p:commandButton
+			value="#{texts.applicationFormChooseManagerButton}"
+			icon="staffLinkIcon"
+			rendered="#{userBean.userAdmin}"
+			styleClass="chooseButton"
+			actionListener="#{appStaffBean.setManagerIndex('3')}"
+			onclick="PF('staffChooseDialog').show();"
+			process="@this"
+			update="vehicleAcceptedManager" />
+		</h:panelGroup>
+		<h:outputText id="vehicleAcceptingDate"
+			styleClass="dateTimeApplicationForm"
+			value="#{appStaffBean.application.vehicleAcceptingDate}">
+			<f:converter converterId="Rent-a-Car.service.converters.DateTimeConverter" />
+		</h:outputText>
+		<h:outputText value="" />
+								
+	
+	</h:panelGrid>
+	
+	</p:layoutUnit>
+	
+	</p:layout>
+
+<!-- BUTTONS -->
+	<br />	
+	<p:commandButton
+		value="#{texts.applicationFormSaveButton}"
+		icon="okButtonIcon"
+		disabled="#{appStaffBean.saveButtonDisabled}"
+		action="#{appStaffBean.saveApplication}"
+		process="@form"
+		update="@form">
+	</p:commandButton>
+	<p:commandButton
+		value="#{texts.cancelButton}"
+		icon="cancelButtonIcon"
+		action="openApplicationsStaff"
+		process="@this"
+		update="@none">
+	</p:commandButton>	
+		
+	</h:form>
+	
+	
+
+<!-- CLIENT CHOOSE DIALOG -->	
+	<p:dialog
+		header="choose client"
+		widgetVar="clientChooseDialog"
+		modal="true"
+		closeOnEscape="true"
+		height="360"
+		width="1200">
+		
+		<ui:include src="/content/staff/clientsListContent.xhtml" />
+		
+	</p:dialog>
+	
+	
+<!-- VEHICLE CHOOSE DIALOG -->	
+	<p:dialog
+		header="choose vehicle"
+		widgetVar="vehicleChooseDialog"
+		modal="true"
+		closeOnEscape="true"
+		height="360"
+		width="1200">
+		
+		<ui:include src="/content/staff/vehicleListContent.xhtml" />
+		
+	</p:dialog>
+	
+	
+<!-- STAFF CHOOSE DIALOG -->	
+	<p:dialog
+		header="choose manager"
+		widgetVar="staffChooseDialog"
+		modal="true"
+		closeOnEscape="true"
+		height="360"
+		width="1200">
+		
+		<ui:include src="/content/staff/staffListContent.xhtml" />
+		
+	</p:dialog>			
+
+
+<!-- VEHICLE SCHEDULE DIALOG -->	
+	<p:dialog
+		id="appScheduleDialog"
+		widgetVar="appVehicleScheduleDialog"
+		modal="true"
+		dynamic="true"
+		closeOnEscape="true"
+		height="360"
+		width="400"
+		resizable="false">
+		
+		<ui:include src="/content/client/vehicleSchedule.xhtml" />
+		
+	</p:dialog>	
+
+	
+</ui:define>
+
+</ui:composition>	

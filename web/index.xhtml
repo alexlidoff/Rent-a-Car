@@ -1,0 +1,60 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<ui:define name="pageContent">
+		
+		<br />
+		<div style="font-size: 1.4em; text-align: justify;">
+		Welcome to Rent-a-car Car Hire.
+		Rent a car online now from one of our worldwide locations.
+		With over 90 years experience in car and van rentals,
+		take advantage of our large vehicle rental selection and make your
+		booking online instantly.
+		With all the best offers and deals on car rental on the website right now,
+		and the option to pay online or upon collection of your car,
+		Rent-a-car is the best place to book your car hire.
+		Start your booking process using the reservation system above or 
+		check out latest car rental offers and van hire promotions that are currently available.
+		
+		<h:form>
+			We have huge choice of 
+			<h:commandLink
+				value="#{texts.carsChoiceLink}"
+				action="viewCarsForRent" />
+		</h:form>
+		</div>
+		
+		<div style="float: left; padding-right: 20px;">
+			<br />
+			<img src="resources/images/cars1.jpg" width="600" height="340" />
+		</div>
+		
+		<div style="font-size: 1.4em; text-align: justify;">
+			<br />
+			An automobile, autocar, motor car or car is a wheeled motor vehicle used for transporting passengers, which also carries its own engine or motor. Most definitions of the term specify that automobiles are designed to run primarily on roads, to have seating for one to eight people, to typically have four wheels, and to be constructed principally for the transport of people rather than goods. 
+			The year 1886 is regarded the year of birth of the modern automobile - with the Benz Patent-Motorwagen. Motorized wagons soon replaced animal-drafted carriages, especially after automobiles became affordable for many people when the Ford Model T was introduced in 1908.
+			The term motorcar has formerly also been used in the context of electrified rail systems to denote a car which functions as a small locomotive but also provides space for passengers and baggage. These locomotive cars were often used on suburban routes by intercity railroad systems.
+		</div>
+		
+		<div style="float: left; padding-right: 20px;">
+			<br />
+			<img src="resources/images/cars2.jpg" width="600" height="200" />
+		</div>
+		<div style="float: right;padding-left: 20px;">
+			<br />
+			<img src="resources/images/cars3.jpg" width="300" height="203" />
+		</div>
+		<div style="font-size: 1.4em; text-align: justify;">
+			<br />
+			The automotive industry designs, develops, manufactures, markets, and sells the world's motor vehicles. In 2008, more than 70 million motor vehicles, including cars and commercial vehicles were produced worldwide.[55]
+			In 2007, a total of 71.9 million new automobiles were sold worldwide: 22.9 million in Europe, 21.4 million in the Asia-Pacific Region, 19.4 million in the USA and Canada, 4.4 million in Latin America, 2.4 million in the Middle East and 1.4 million in Africa.[56] The markets in North America and Japan were stagnant, while those in South America and other parts of Asia grew strongly. Of the major markets, China, Russia, Brazil and India saw the most rapid growth.
+			About 250 million vehicles are in use in the United States. Around the world, there were about 806 million cars and light trucks on the road in 2007; they burn over 260 billion US gallons (980,000,000 m3) of gasoline and diesel fuel yearly. The numbers are increasing rapidly, especially in China and India.[6] In the opinion of some, urban transport systems based around the car have proved unsustainable, consuming excessive energy, affecting the health of populations, and delivering a declining level of service despite increasing investments. Many of these negative impacts fall disproportionately on those social groups who are also least likely to own and drive cars.[57][58][59] The sustainable transport movement focuses on solutions to these problems.
+			In 2008, with rapidly rising oil prices, industries such as the automotive industry, are experiencing a combination of pricing pressures from raw material costs and changes in consumer buying habits. The industry is also facing increasing external competition from the public transport sector, as consumers re-evaluate their private vehicle usage.[60] Roughly half of the US's fifty-one light vehicle plants are projected to permanently close in the coming years, with the loss of another 200,000 jobs in the sector, on top of the 560,000 jobs lost this decade.[61] Combined with robust growth in China, in 2009, this resulted in China becoming the largest automobile producer and market in the world. China 2009 sales had increased to 13.6 million, a significant increase from one million of domestic car sales in 2000.
+		</div>
+		
+		
+	</ui:define>
+
+</ui:composition>

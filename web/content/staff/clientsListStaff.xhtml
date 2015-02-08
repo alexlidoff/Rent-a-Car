@@ -1,0 +1,27 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER	-->
+	<h:outputText
+		value="#{texts.clientsListHeader}" styleClass="listFormHeader" />
+
+<!-- DATA TABLE WITH CLIENTS	-->		
+	<ui:include src="/content/staff/clientsListContent.xhtml" />
+	
+<!-- ADD BUTTON -->	
+	<h:form>	
+		<br />
+		<p:commandButton
+			value="#{texts.clientsListAdd}"
+			action="#{clientsListBean.openClient(null)}"
+			icon="addButtonIcon" />
+	</h:form>
+		
+</ui:define>
+
+</ui:composition>		

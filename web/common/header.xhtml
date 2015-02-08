@@ -1,0 +1,195 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+
+<h:panelGroup id="headerPanelGroup" layout="block">
+
+<!-- LOGO IMAGE -->	
+	<h:panelGroup id="headerLogo" layout="block">
+		<p:graphicImage
+			value="/resources/images/rent_a_car.png"
+			styleClass="logoImage"/>
+	</h:panelGroup>
+	
+<!-- LANGUAGE SELECT MENU -->
+	<h:panelGroup id="selectLocaleMenu" layout="block" styleClass="selectLocaleMenu">		
+		<h:form id="selectLanguageForm">
+			<h:selectOneMenu 
+				value="#{localizationManager.language}"
+				onchange="submit()">
+				<f:selectItems 
+					value="#{localizationManager.languages}"
+					var="language"
+					itemLabel="#{language}"
+				/>
+			</h:selectOneMenu>
+		</h:form>
+	</h:panelGroup>
+
+<!-- HEADER TEXTS -->
+	<h:panelGroup id="headerText" layout="block" styleClass="headerText">	
+		<h:outputText value="#{texts.mainHeader1}" styleClass="headerText1" />
+		<h:outputText value="#{texts.mainHeader2}" styleClass="headerText2" />
+	</h:panelGroup>	
+		
+
+	<h:panelGroup id="headerMainMenu" layout="block">		
+	<h:form id="mainMenuForm">
+	
+		<p:menubar id="mainMenu" styleClass="mainMenu">
+
+<!-- USER = CLIENT -->				
+<!-- HOME PAGE -->	
+			<p:menuitem
+				value="#{texts.homePageLink}"
+				icon="homePageLinkIcon"
+				action="goHomePage"
+				process="@this"
+				rendered="#{not userBean.userLogged or userBean.userClient}" />
+<!-- VIEW ALL CARS -->				
+			<p:menuitem
+				value="#{texts.carsChoiceLink}"
+				icon="carChoiceLinkIcon"
+				action="viewCarsForRent"
+				process="@this"
+				rendered="#{not userBean.userLogged or userBean.userClient}" />
+<!-- EDIT PROFILE -->					
+			<p:menuitem
+				value="#{texts.editClientProfileLink}"
+				icon="profileLinkIcon"
+				action="openClientProfileForm"
+				rendered="#{userBean.userClient}" />
+<!-- VIEW APPLICATIONS -->						
+			<p:menuitem
+				value="#{texts.viewClientApplicationsLink}"
+				icon="applicationsLinkIcon"
+				action="openApplicationsListClient"
+				rendered="#{userBean.userClient}" />
+
+<!-- USER = STAFF -->				
+<!-- APPLICATIONS -->	
+			<p:menuitem
+				value="#{texts.mainMenuApplications}"
+				icon="applicationsLinkIcon"
+				action="openApplicationsStaff"
+				rendered="#{userBean.userStaff}" />
+<!-- CLIENTS -->	
+			<p:menuitem
+				value="#{texts.mainMenuClients}"
+				icon="clientsLinkIcon"
+				action="openClientsStaff"
+				rendered="#{userBean.userStaff}" />
+<!-- VEHICLES -->	
+			<p:menuitem
+				value="#{texts.mainMenuVehicles}"
+				icon="vehiclesLinkIcon"
+				action="openVehiclesStaff"
+				rendered="#{userBean.userStaff}" />
+<!-- VEHICLE TYPES -->	
+			<p:menuitem
+				value="#{texts.mainMenuVehicleTypes}"
+				icon="vehicleTypesLinkIcon"
+				action="openVehicleTypesStaff"
+				rendered="#{userBean.userStaff}" />
+<!-- STAFF -->	
+			<p:menuitem
+				value="#{texts.mainMenuStaff}"
+				icon="staffLinkIcon"
+				action="openStaff"
+				rendered="#{userBean.userAdmin}" />
+<!-- REPORTS -->
+			<p:submenu				
+				label="#{texts.mainMenuReports}"
+				icon="reportsLinkIcon"
+				rendered="#{userBean.userStaff}">
+				<p:menuitem
+					value="#{texts.mainMenuReportOptions}"
+					icon="reportPieLinkIcon"
+					action="openReportCarsByOptions" />
+				<p:menuitem
+					value="#{texts.mainMenuReportFeatures}"
+					icon="reportChartLinkIcon"
+					action="openReportCarsByFeatures" />
+			</p:submenu>																												
+
+<!-- COMMON - LOGIN/REGISTER/LOGOUT SECTION -->								
+			<f:facet name="options">			
+<!-- LOGIN BUTTON-->			
+				<p:commandButton
+					value="#{texts.loginLink}"
+					action="#{userBean.loginLinkClicked()}"
+					icon="loginButtonIcon" 
+					rendered="#{not userBean.userLogged and not userBean.showLoginFields}"
+					process="@this"
+					update="@form" />
+				<p:outputLabel
+					value=" #{texts.orText} "
+					rendered="#{not userBean.userLogged and not userBean.showLoginFields}" />
+<!-- REGISTER BUTTON-->				
+				<p:commandButton
+					value="#{texts.registerLink}" 
+					action="openClientProfileForm"
+					icon="registerButtonIcon" 
+					rendered="#{not userBean.userLogged and not userBean.showLoginFields}"
+					ajax="false" />
+<!-- LOGIN FIELD -->					
+				<p:outputLabel 
+					value="#{texts.email}:" 
+					rendered="#{userBean.showLoginFields}" />
+				<p:inputText 
+					value="#{userBean.login}"
+					required="true"
+					styleClass="loginField" 
+					rendered="#{userBean.showLoginFields}" />
+<!-- PASSWORD FIELD -->					
+				<p:outputLabel 
+					value="#{texts.password}:" 
+					rendered="#{userBean.showLoginFields}" />
+				<p:password
+					value="#{userBean.password}"
+					required="true" 
+					styleClass="passwordField"
+					rendered="#{userBean.showLoginFields}" />
+<!-- BUTTON OK -->					
+				<p:commandButton 
+					value="#{texts.okButton}" 
+					action="#{userBean.login()}" 
+					icon="okButtonIcon"
+					rendered="#{userBean.showLoginFields}"
+					process="@form"
+					update="@form :growl" />
+<!-- BUTTON CANCEL -->				
+				<p:commandButton 
+					value="#{texts.cancelButton}" 
+					action="#{userBean.cancelLogin()}"
+					icon="cancelButtonIcon" 
+					rendered="#{userBean.showLoginFields}"
+					process="@this"
+					update="@form" />
+
+<!-- EMAIL AND USER NAME MARKS -->				
+				<p:outputLabel
+					value="#{userBean.userName} (#{userBean.login}) "
+					rendered="#{userBean.userLogged}" />
+<!-- LOG OUT BUTTON -->				
+				<p:commandButton
+					value="#{texts.logoutLink}" 
+					action="#{userBean.logout()}"
+					icon="logoutButtonIcon"
+					rendered="#{userBean.userLogged}"
+					ajax="false" />
+			</f:facet>
+			
+		</p:menubar>
+		
+	</h:form>
+	</h:panelGroup>
+	
+</h:panelGroup> 
+
+</ui:composition>

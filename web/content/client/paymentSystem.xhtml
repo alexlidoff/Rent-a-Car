@@ -1,0 +1,71 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<h:outputFormat value="#{texts.paymentHeader}" styleClass="listFormHeader">
+		<f:param value="#{paymentBean.application.amount}$" />
+		<f:param value="#{paymentBean.application.vehicle.name}" />
+	</h:outputFormat>
+	
+	<h:form>
+	
+	<h:panelGrid columns="2">
+		
+		<br />
+		<h:outputText value="" />	
+		<h:outputText value="#{texts.paymentCreditcardNumber}" />
+		<p:inputMask
+			mask="99999999999999"
+			required="true"/>			
+		
+		<br />
+		<h:outputText value="" />
+		<h:outputText value="#{texts.paymentCreditcardExpiryDate}" />
+		<h:panelGroup>
+		<p:selectOneMenu required="true">  
+            <f:selectItem itemLabel="" itemValue="" />  
+            <f:selectItems
+            	value="#{paymentBean.months}"
+            	var="month" itemLabel="#{month}" />  
+        </p:selectOneMenu>
+		<p:selectOneMenu required="true">  
+            <f:selectItem itemLabel="" itemValue="" />  
+            <f:selectItems
+            	value="#{paymentBean.years}"
+            	var="year" itemLabel="#{year}"/>  
+        </p:selectOneMenu>
+        </h:panelGroup>
+        
+        <br />
+        <h:outputText value="" />
+        <h:outputText value="#{texts.paymentCreditcardCVV}" />
+		<p:keyboard
+			password="true" keypadOnly="true" required="true" maxlength="3" />
+		
+	</h:panelGrid>
+	
+	<br />
+	<p:separator />
+	<p:commandButton
+		value="#{texts.paymentPayButton}"
+		icon="okButtonIcon"
+		process="@form"
+		update="@form"
+		action="#{paymentBean.pay()}" >
+	</p:commandButton>
+	<p:commandButton
+		value="#{texts.paymentCancelButton}"
+		icon="cancelButtonIcon"
+		process="@this"
+		action="leavePayment">
+	</p:commandButton>
+	
+	</h:form>
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,109 @@
+<ui:composition
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+		
+	<h:form>
+		
+		<p:dataTable
+			id="staffTable"
+			styleClass="staffTable"
+			value="#{staffListBean.staffDataModel}"
+			var="employee"
+			paginator="true"
+			rows="10"
+			emptyMessage="#{texts.staffListEmpty}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,20,50,100"
+			resizableColumns="true"
+			filterDelay="1000"
+			selectionMode="single"
+			lazy="true">
+
+<!-- AJAX FOR CHOOSE MODE -->			
+			<p:ajax
+				disabled="#{not staffListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{staffListBean.onRowDoubleClick}"
+				process="@this"
+				update=":applicationForm" />
+<!-- AJAX FOR NON-CHOOSE MODE -->				
+			<p:ajax
+				disabled="#{staffListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{staffListBean.onRowDoubleClick}"
+				process="@this"/>
+			
+<!-- FIRST NAME -->		
+			<p:column
+				headerText="#{texts.staffListFirstName}"
+				styleClass="staffFirstNameColumn"
+				sortBy="firstName"
+				filterBy="firstName"
+				filterMatchMode="contains"
+				filterStyleClass="staffTableFilter">
+				<h:outputText value="#{employee.firstName}" />
+			</p:column>
+<!-- LAST NAME -->		
+			<p:column
+				headerText="#{texts.staffListLastName}"
+				styleClass="staffLastNameColumn"
+				sortBy="lastName"
+				filterBy="lastName"
+				filterMatchMode="contains"
+				filterStyleClass="staffTableFilter">
+				<h:outputText value="#{employee.lastName}" />
+			</p:column>
+<!-- POSITION -->		
+			<p:column
+				headerText="#{texts.staffListPosition}"
+				styleClass="staffPositionColumn"
+				sortBy="position"
+				filterBy="position"
+				filterMatchMode="contains"
+				filterStyleClass="staffTableFilter">
+				<h:outputText value="#{employee.position}" />
+			</p:column>
+<!-- EMAIL -->		
+			<p:column
+				headerText="#{texts.staffListEmail}"
+				styleClass="staffEmailColumn"
+				sortBy="email"
+				filterBy="email"
+				filterMatchMode="contains"
+				filterStyleClass="staffTableFilter">
+				<h:outputText value="#{employee.email}" />
+			</p:column>
+<!-- PHONE -->		
+			<p:column
+				headerText="#{texts.staffListPhone}"
+				styleClass="staffPhoneColumn"
+				sortBy="phone"
+				filterBy="phone"
+				filterMatchMode="contains"
+				filterStyleClass="staffTableFilter">
+				<h:outputText value="#{employee.phone}" />
+			</p:column>
+<!-- OPEN LINK -->		
+			<p:column
+				rendered="#{not staffListBean.chooseMode}"
+				styleClass="staffActionColumn">
+				<h:commandLink
+					action="#{staffListBean.openEmployee(employee)}"
+					value="#{texts.staffListOpen}" />
+			</p:column>
+<!-- CHOOSE LINK -->		
+			<p:column
+				rendered="#{staffListBean.chooseMode}"
+				styleClass="staffActionColumn">
+				<h:commandLink
+					action="#{staffListBean.chooseEmployee(employee)}"
+					value="#{texts.staffListChoose}" />
+			</p:column>																							
+		
+		</p:dataTable>
+					
+	</h:form>
+
+</ui:composition>		

@@ -1,0 +1,234 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER	-->
+	<h:outputText
+		value="#{texts.vehicleFormEditHeader}"
+		styleClass="listFormHeader"
+		rendered="#{vehicleBean.vehicle.id != null}" />
+	<h:outputText
+		value="#{texts.vehicleFormAddHeader}"
+		styleClass="listFormHeader"
+		rendered="#{vehicleBean.vehicle.id == null}" />
+	
+	<h:form id="vehicleForm" enctype="multipart/form-data">
+	
+	<p:layout style="min-width:800px;min-height:480px;height:480px;">
+	
+	<p:layoutUnit position="west" size="900" styleClass="vehicleFieldsSection">
+	
+	<h:panelGrid columns="3">
+	
+<!-- DISABLED -->
+	<h:outputText value="#{texts.vehicleFormDisabled}"/>
+	<p:selectBooleanCheckbox
+		id="disabled"
+		value="#{vehicleBean.vehicle.disabled}" />
+<!-- VIEW SCHEDULE LINK -->
+	<h:panelGroup>		
+	<p:commandLink
+		rendered="#{vehicleBean.vehicle.id != null}"
+		actionListener="#{vehiclesListBean.vehicleScheduleClicked(vehicleBean.vehicle)}"
+		value="#{texts.vehicleSchedule}"
+		oncomplete="PF('vehicleScheduleDialog').show();"
+		style="color: blue; float: right;"
+		process="@this"
+		update=":scheduleDialog" />
+	</h:panelGroup>		
+<!-- NAME -->
+	<h:outputText value="#{texts.vehicleFormName}"/>
+	<p:inputText
+		id="name"
+		value="#{vehicleBean.vehicle.name}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" />
+	<p:message for="name" display="text" />
+<!-- VIN -->
+	<h:outputText value="#{texts.vehicleFormVIN}"/>
+	<p:inputText
+		id="VIN"
+		value="#{vehicleBean.vehicle.VIN}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" />
+	<p:message for="VIN" display="text" />
+<!-- CLASS -->
+	<h:outputText value="#{texts.vehicleClass}"/>
+	<p:selectOneMenu
+		id="class"
+		value="#{vehicleBean.vehicle.vehicleClass}"
+		required="true">
+		<f:selectItems
+			value="#{vehicleBean.vehicleClasses}"
+			var="vehicleClass"
+			itemLabel="#{vehicleClass}" />
+		<f:converter converterId="Rent-a-Car.service.converters.VehicleClassConverter" />
+	</p:selectOneMenu>
+	<h:panelGrid columns="2">
+<!-- TYPE -->
+	<h:outputText value="#{texts.vehicleType}"/>
+	<p:selectOneMenu
+		id="type"
+		value="#{vehicleBean.vehicle.vehicleType}"
+		required="true">
+		<f:selectItems
+			value="#{vehicleBean.vehicleTypes}"
+			var="vehType"
+			itemValue="#{vehType}"
+			itemLabel="#{vehType.name}" />
+		<f:converter converterId="Rent-a-Car.service.converters.VehicleTypeConverter" />
+	</p:selectOneMenu>
+	</h:panelGrid>			
+<!-- YEAR -->
+	<h:outputText value="#{texts.vehicleYear}"/>
+	<p:inputMask
+		id="year"
+		value="#{vehicleBean.vehicle.year}"
+		mask="9999"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" />
+	<p:message for="year" display="text" />
+<!-- ENGINE -->
+	<h:outputText value="#{texts.vehicleEngine}"/>
+	<p:inputText
+		id="engine"
+		value="#{vehicleBean.vehicle.engine}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" />
+	<p:message for="engine" display="text" />
+<!-- GEARBOX -->
+	<h:outputText value="#{texts.vehicleGearbox}"/>
+	<p:selectOneRadio
+		id="gearbox"
+		value="#{vehicleBean.vehicle.gearbox}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" >
+		<f:selectItem itemValue="1" itemLabel="#{texts.gearboxManual}" />
+		<f:selectItem itemValue="2" itemLabel="#{texts.gearboxAutomatic}" />
+	</p:selectOneRadio>
+	<p:message for="gearbox" display="text" />
+<!-- DRIVE -->
+	<h:outputText value="#{texts.vehicleDrive}"/>
+	<p:selectOneRadio
+		id="drive"
+		layout="grid"
+		columns="1"
+		value="#{vehicleBean.vehicle.drive}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}" >
+		<f:selectItem itemValue="1" itemLabel="#{texts.frontWheelDrive}" />
+		<f:selectItem itemValue="2" itemLabel="#{texts.rearWheelDrive}" />
+		<f:selectItem itemValue="3" itemLabel="#{texts.fullWheelDrive}" />
+	</p:selectOneRadio>
+	<p:message for="drive" display="text" />
+<!-- AC -->
+	<h:outputText value="#{texts.vehicleAC}"/>
+	<p:selectBooleanCheckbox
+		id="ac"
+		value="#{vehicleBean.vehicle.ac}" />
+	<h:panelGrid columns="10">
+<!-- CRUISE CONTROL -->
+	<h:outputText value="#{texts.vehicleCruiseControl} "/>
+	<p:selectBooleanCheckbox
+		id="cruiseControl"
+		value="#{vehicleBean.vehicle.cruiseControl}" />
+	<p:spacer width="20" />
+	<p:spacer width="20" />
+	<p:spacer width="20" />
+	<p:spacer width="20" />
+	<p:spacer width="20" />
+	<p:spacer width="20" />	
+<!-- CABRIOLET -->
+	<h:outputText value="#{texts.vehicleCabriolet} "/>
+	<p:selectBooleanCheckbox
+		id="cabriolet"
+		value="#{vehicleBean.vehicle.cabriolet}" />
+	</h:panelGrid>
+<!-- PRICE -->
+	<h:outputText value="#{texts.vehiclePrice}"/>
+	<p:inputText
+		id="price"
+		value="#{vehicleBean.vehicle.price}"
+		required="true"
+		requiredMessage="#{texts.fieldEmptyMessage}"
+		converterMessage="#{texts.fieldIncorrectMessage}"
+		validator="#{validators.validatePrice}" />
+	<p:message for="price" display="text" />										
+	
+	</h:panelGrid>
+	
+<!-- DESCRIPTION -->
+	<br />
+	<h:outputText value="#{texts.vehicleDescription}:"/>
+	<br />
+	<p:inputTextarea
+		id="description"
+		rows="2" cols="130"
+		value="#{vehicleBean.vehicle.description}" />
+				
+	</p:layoutUnit>
+	
+	
+	<p:layoutUnit position="center">
+		<p:fileUpload
+			mode="advanced"
+			fileUploadListener="#{vehicleBean.handleFileUpload}"
+			update="vehiclePhoto"
+			auto="true"
+			sizeLimit="2097152"
+			allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+			converterMessage="#{texts.imageFileIncorrectMessage}"
+			validatorMessage="#{texts.imageFileIncorrectMessage}"
+			label="#{texts.fileUploaderChooseButton}" />
+		<h:panelGroup id="vehiclePhoto" layout="block" styleClass="vehicleImageContainer">			
+			<p:graphicImage value="#{imageUploadBean.image}" styleClass="vehicleSmallPhoto" cache="false">
+				<f:param name="randomValue" value="#{imageUploadBean.randomValue}" />
+			</p:graphicImage>
+		</h:panelGroup>
+	</p:layoutUnit>
+	
+	</p:layout>
+	
+	<!-- BUTTONS -->	
+	<br />
+	<h:panelGroup layout="block" id="buttonsSection">
+		<p:commandButton
+			value="#{texts.vehicleFormSaveButton}"
+			action="#{vehicleBean.saveVehicle}"
+			icon="okButtonIcon"
+			process="vehicleForm"
+			update="vehicleForm" />
+		<p:commandButton
+			value="#{texts.cancelButton}"
+			action="openVehiclesStaff"
+			icon="cancelButtonIcon"
+			process="@this"
+			update="@none" />			
+	</h:panelGroup>
+	
+	</h:form>
+	
+	
+<!-- VEHICLE SCHEDULE DIALOG -->	
+<p:dialog
+	id="scheduleDialog"
+	widgetVar="vehicleScheduleDialog"
+	modal="true"
+	dynamic="true"
+	closeOnEscape="true"
+	height="360"
+	width="400"
+	resizable="false">
+		
+	<ui:include src="/content/client/vehicleSchedule.xhtml" />
+		
+</p:dialog>	
+
+
+</ui:define>
+
+</ui:composition>

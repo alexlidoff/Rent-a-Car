@@ -1,0 +1,639 @@
+
+body {
+	width: 1300px;
+	margin: 1%;
+	margin-left: auto;
+	margin-right: auto;
+	background: url('../../resources/images/background.jpg') repeat-y;
+	-moz-background-size: 100%;
+    -webkit-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+}
+
+#headerPanelGroup {
+	border-bottom: solid thin gray;
+	margin-bottom: 1%; 
+}
+
+#headerLogo {
+	float: left;
+}
+
+.logoImage {
+	width: 200px;
+	height: 70px;
+	padding-right: 30px;
+}
+
+.headerText1 {
+	font-size: 4.8em;
+	font-weight: bold;
+	font-family: monospace;
+	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.3),0 3px 5px rgba(0,0,0,0.2),0 5px 10px rgba(0,0,0,0.25);
+	padding-right: 15px;
+}
+
+.headerText2 {
+	font-size: 1.5em;
+	font-style: italic;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1),0 1px 3px rgba(0,0,0,0.3),0 3px 5px rgba(0,0,0,0.2),0 5px 10px rgba(0,0,0,0.25);
+}
+
+.selectLocaleMenu {
+	float: right;
+	margin-top: 20px;
+}
+
+.mainMenu {
+	font-size: medium;
+}
+
+#footerPanelGroup {
+	border-top: solid thin gray;
+	margin-top: 3%; 
+}
+
+.copyrightFooter {
+	font-size: small;
+	padding-right: 100px; 
+}
+
+.authorFooter {
+	font-size: small;
+	padding-top: 2px;
+	float: right; 
+}
+
+.contactUsFooter {
+	font-size: small;
+}
+
+.loginField  {
+	width: 200px;
+}
+
+.passwordField  {
+	width: 150px;
+}
+
+#error403Image {
+	width: 440px;
+	height: 617px;
+	margin: auto;
+}
+
+a:HOVER {
+	border-bottom-style: dotted;
+	border-bottom-color: #FF8080;
+	border-bottom-width: thick;
+	text-decoration: none;
+}
+
+.ui-accordion-header > a:HOVER {
+	border-bottom-style: none;
+	text-decoration: none; 
+}
+
+.vehicleSmallPhoto {
+	width: 300px;
+	height: 200px;
+}
+
+.vehicleImageContainer {
+	text-align: center;
+}
+
+.vehicleFieldsSection {
+	font-size: medium;
+}
+
+.listFormHeader {
+	font-size: x-large;
+	font-weight: bold;
+	text-decoration: underline; 
+}
+
+.loginPageLogin {
+	float: left;
+	width: 300px;
+	height: 200px;
+	border: 1px solid #DDD;
+	border-right: 1px solid #CCC;
+	padding: 25px;
+	box-shadow: 4px 0px 1px #EEE;
+}
+
+.loginPageRegister {
+	float: right;
+	width: 300px;
+	height: 200px;
+	border: 1px solid #DDD;
+	border-right: 1px solid #CCC;
+	padding: 25px;
+	box-shadow: 4px 0px 1px #EEE;
+}
+
+.dateInput > input {
+	width: 120px;
+}
+
+
+
+
+/* CLIENT PROFILE FORM */
+
+.clientProfileForm {
+	font-size: medium !important;
+}
+
+
+
+/* STAFF FORM */
+
+.staffForm {
+	font-size: medium !important;
+}
+
+
+
+
+/* APPLICATION FORM */
+
+.clientNameApplicationForm, .vehicleNameApplicationForm {
+	font-weight: bold;
+	color: #004080;
+	padding-right: 10px;
+}
+
+.idApplicationForm {
+	font-size: large;
+	font-weight: bold;
+	padding-left: 10px;	
+}
+
+.inputApplicationForm, .inputApplicationForm > input {
+	width: 100px;
+}
+
+.calculatedValueApplicationForm {
+	font-weight: bold;
+}
+
+.managerApplicationForm {
+	font-size: larger;
+	font-weight: bold;
+	font-style: italic;
+	color: Maroon;
+}
+
+.dateTimeApplicationForm {
+	font-weight: bold;
+	text-decoration: underline;
+	color: Blue;
+}
+
+.tabTitleText1 {
+	width: 15%;
+	float: left;
+}
+
+.tabTitleText2 {
+	white-space: pre;
+}
+
+.tabTitleText3 {
+	color: red;
+	white-space: pre;
+}
+
+.applicationTable td {
+	padding-left: 30px;
+}
+
+.payLink {
+	font-size: large;
+	font-weight: bold;
+	color: blue !important;
+}
+
+.chooseButton {
+	font-size: small !important;
+}
+
+
+
+/* PRIMEFACES */
+
+.ui-menuitem-text {
+	line-height: 20px;
+	padding-left: 5px;
+}
+
+.ui-inputtext,
+.ui-selectoneradio,
+.ui-inputfield {
+	font-size: medium;
+}
+
+.ui-inputtextarea,
+.ui-paginator {
+	font-size: small !important;
+}
+
+.ui-layout-unit-content{
+	background-color: #F8F8F8;
+}
+
+.fc-button-month, 
+.fc-button-agendaWeek,
+.fc-button-agendaDay,
+.fc-button-today {
+	visibility: hidden;
+}
+
+.fc-event {
+	background-color: red !important;
+	color: red !important;
+}
+
+.jqplot-table-legend {
+	font-size: 1.3em;
+}
+
+
+
+
+
+/* APPLICATIONS TABLE */
+
+.applicationsTable {
+	font-size: small;
+}
+
+.applicationsTableFilter {
+	width: 95% !important;
+}
+
+.appIdColumn {
+	width: 4%;
+	text-align: center;
+}
+
+.appStatusColumn {
+	width: 5%;
+}
+
+.appFirstNameColumn, .appLastNameColumn, .appVehicleColumn {
+	width: 9%;
+}
+
+.appStartDateColumn, .appEndDateColumn {
+	width: 5.5%;
+}
+
+.appAmountColumn, .appExtraPayColumn {
+	width: 6%;
+	text-align: right;
+}
+
+.appAmountPaidColumn, .appExtraPaidColumn, .appVehicleReleasedColumn, .appVehicleAcceptedColumn {
+	width: 3%;
+	text-align: center;
+}
+
+.appActionColumn {
+	width: 3%;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+
+
+
+/* CLIENTS TABLE */
+
+.clientsTable {
+	font-size: small !important;
+}
+
+.clientsTableFilter {
+	width: 90% !important;
+}
+
+.clientFirstNameColumn, .clientLastNameColumn, .clientDrivingLicenseColumn, .clientPhoneColumn {
+	width: 10%;
+}
+
+.clientITINColumn {
+	width: 10%;
+}
+
+.clientEmailColumn {
+	width: 20%;
+}
+
+.clientActionColumn {
+	width: 3%;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+
+
+/* STAFF TABLE */
+
+.staffTable {
+	font-size: small !important;
+}
+
+.staffTableFilter {
+	width: 90% !important;
+}
+
+.staffFirstNameColumn, .staffLastNameColumn, .staffPositionColumn {
+	width: 13%;
+}
+
+.staffPhoneColumn {
+	width: 15%;
+}
+
+.staffEmailColumn {
+	width: 20%;
+}
+
+.staffActionColumn {
+	width: 3%;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+
+
+/* CAR CHOICE TABLE */
+
+.carChoiceTable {
+	font-size: large;
+	clear: both;
+}
+
+.carChoiceTable thead {
+	font-size: small;
+}
+
+.carChoiceTableRow {
+	background-color: #F8F8F8;
+}
+
+.carChoiceTableFilter {
+	font-size: small !important;
+	width: 90% !important;
+}
+
+.carChoiceIconColumn {
+	width: 3%;
+	text-align: center;
+}
+
+.carChoiceNameColumn {
+	width: 13%;
+	white-space: normal !important;
+}
+
+.carChoiceClassColumn, .carChoiceTypeColumn {
+	width: 6%;
+}
+
+.carChoiceGearboxColumn {
+	width: 6%;
+}
+
+.carChoiceDriveColumn {
+	width: 6%;
+	white-space: pre-line !important;
+}
+
+.carChoicePriceColumn {
+	width: 6%;
+	text-align: right;
+}
+
+.carChoicePhotoColumn {
+	width: 23%;
+}
+
+td.carChoicePhotoColumn {
+	height: 220px;
+}
+
+.carChoiceActionColumn {
+	width: 4%;
+	text-align: center;
+	font-weight: bold;
+	white-space: pre-line !important;
+}
+
+.carChoiceActionColumn a {
+	color: blue;
+}
+
+.carChoicevehicleName {
+	font-size: larger;
+	font-weight: bold;
+	color: #004080;
+}
+
+.carChoiceDescriptionBlock {
+	font-size: small;
+	white-space: pre-wrap;
+}
+
+.carChoiceDescriptionLabel {
+	font-size: small;
+	float: left;
+}
+
+
+
+
+/* VEHICLES TABLE */
+
+.vehiclesTable {
+	font-size: small !important;
+	clear: both;
+}
+
+.vehiclesTableFilter {
+	font-size: small !important;
+	width: 90% !important;
+}
+
+.vehicleDisabledColumn {
+	width: 3%;
+	text-align: center;
+}
+
+.vehicleVINColumn {
+	width: 11%;
+}
+
+.vehicleNameColumn {
+	width: 13%;
+}
+
+.vehicleYearColumn {
+	width: 4%;
+	text-align: center;
+}
+
+.vehicleClassColumn, .vehicleTypeColumn {
+	width: 5%;
+}
+
+.vehicleEngineColumn {
+	width: 10%;
+}
+
+.vehicleGearboxColumn {
+	width: 5%;
+}
+
+.vehicleDriveColumn {
+	width: 7%;
+}
+
+.vehiclePriceColumn {
+	width: 6%;
+	text-align: right;
+}
+
+.vehicleActionColumn {
+	width: 3%;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+
+
+
+/* ICONS */
+
+.homePageLinkIcon {
+	background: url('../../resources/images/homePage.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.carChoiceLinkIcon {
+	background: url('../../resources/images/carsChoice.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.applicationsLinkIcon {
+	background: url('../../resources/images/applications.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.profileLinkIcon {
+	background: url('../../resources/images/profile.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.loginButtonIcon {
+	background: url('../../resources/images/login.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.logoutButtonIcon {
+	background: url('../../resources/images/logout.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.registerButtonIcon {
+	background: url('../../resources/images/register.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.okButtonIcon {
+	background: url('../../resources/images/ok.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.cancelButtonIcon {
+	background: url('../../resources/images/cancel.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.releaseVehicleButtonIcon {
+	background: url('../../resources/images/arrow-out.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.acceptVehicleButtonIcon {
+	background: url('../../resources/images/arrow-in.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.clientsLinkIcon {
+	background: url('../../resources/images/clients.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.vehiclesLinkIcon {
+	background: url('../../resources/images/car.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.vehicleTypesLinkIcon {
+	background: url('../../resources/images/carTypes.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.staffLinkIcon {
+	background: url('../../resources/images/staff.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.addButtonIcon {
+	background: url('../../resources/images/add.png') no-repeat !important;
+	height: 20px;
+	width: 20px;
+}
+
+.reportsLinkIcon {
+	background: url('../../resources/images/reports.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.reportPieLinkIcon {
+	background: url('../../resources/images/report_pie.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}
+
+.reportChartLinkIcon {
+	background: url('../../resources/images/report_chart.png') no-repeat !important;
+	height: 22px;
+	width: 22px;
+}

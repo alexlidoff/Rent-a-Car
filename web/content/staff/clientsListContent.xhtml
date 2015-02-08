@@ -1,0 +1,119 @@
+<ui:composition
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+		
+	<h:form>
+		
+		<p:dataTable
+			id="clientsTable"
+			styleClass="clientsTable"
+			value="#{clientsListBean.clientDataModel}"
+			var="client"
+			paginator="true"
+			rows="10"
+			emptyMessage="#{texts.clientsListEmpty}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,20,50,100"
+			resizableColumns="true"
+			filterDelay="1000"
+			selectionMode="single"
+			lazy="true">
+
+<!-- AJAX FOR CHOOSE MODE -->			
+			<p:ajax
+				disabled="#{not clientsListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{clientsListBean.onRowDoubleClick}"
+				process="@this"
+				update=":applicationForm" />
+<!-- AJAX FOR NON-CHOOSE MODE -->				
+			<p:ajax
+				disabled="#{clientsListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{clientsListBean.onRowDoubleClick}"
+				process="@this"/>
+			
+<!-- FIRST NAME -->		
+			<p:column
+				headerText="#{texts.clientsListFirstName}"
+				styleClass="clientFirstNameColumn"
+				sortBy="firstName"
+				filterBy="firstName"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.firstName}" />
+			</p:column>
+<!-- LAST NAME -->		
+			<p:column
+				headerText="#{texts.clientsListLastName}"
+				styleClass="clientLastNameColumn"
+				sortBy="lastName"
+				filterBy="lastName"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.lastName}" />
+			</p:column>
+<!-- ITIN -->		
+			<p:column
+				headerText="#{texts.clientsListITIN}"
+				styleClass="clientITINColumn"
+				sortBy="ITIN"
+				filterBy="ITIN"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.ITIN}" />
+			</p:column>
+<!-- EMAIL -->		
+			<p:column
+				headerText="#{texts.clientsListEmail}"
+				styleClass="clientEmailColumn"
+				sortBy="email"
+				filterBy="email"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.email}" />
+			</p:column>
+<!-- DRIVING LICENSE -->		
+			<p:column
+				headerText="#{texts.clientsListDrivingLicense}"
+				styleClass="clientDrivingLicenseColumn"
+				sortBy="drivingLicense"
+				filterBy="drivingLicense"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.drivingLicense}" />
+			</p:column>
+<!-- PHONE -->		
+			<p:column
+				headerText="#{texts.clientsListPhone}"
+				styleClass="clientPhoneColumn"
+				sortBy="phone"
+				filterBy="phone"
+				filterMatchMode="contains"
+				filterStyleClass="clientsTableFilter">
+				<h:outputText value="#{client.phone}" />
+			</p:column>
+<!-- OPEN LINK -->		
+			<p:column
+				rendered="#{not clientsListBean.chooseMode}"
+				styleClass="clientActionColumn">
+				<h:commandLink
+					action="#{clientsListBean.openClient(client)}"
+					value="#{texts.clientsListOpen}" />
+			</p:column>
+<!-- CHOOSE LINK -->		
+			<p:column
+				rendered="#{clientsListBean.chooseMode}"
+				styleClass="clientActionColumn">
+				<h:commandLink
+					action="#{clientsListBean.chooseClient(client)}"
+					value="#{texts.clientsListChoose}" />
+			</p:column>																							
+		
+		</p:dataTable>
+					
+	</h:form>
+
+</ui:composition>		

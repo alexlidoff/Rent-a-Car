@@ -1,0 +1,27 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER	-->
+	<h:outputText
+		value="#{texts.staffListHeader}" styleClass="listFormHeader" />
+
+<!-- DATA TABLE WITH STAFF	-->		
+	<ui:include src="/content/staff/staffListContent.xhtml" />
+	
+<!-- ADD BUTTON -->	
+	<h:form>	
+		<br />
+		<p:commandButton
+			value="#{texts.staffListAdd}"
+			action="#{staffListBean.openEmployee(null)}"
+			icon="addButtonIcon" />
+	</h:form>
+		
+</ui:define>
+
+</ui:composition>		

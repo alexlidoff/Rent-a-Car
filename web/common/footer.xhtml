@@ -1,0 +1,21 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+
+<h:panelGroup id="footerPanelGroup" layout="block">
+<h:panelGroup>
+	<h:outputText value="#{texts.author}" styleClass="authorFooter" />
+</h:panelGroup>
+
+<h:panelGrid columns="2">
+	<h:outputText value="#{texts.copyright}" styleClass="copyrightFooter" />
+	<h:form>
+	<h:commandLink action="contactUs" value="#{texts.contactUsLink}" styleClass="contactUsFooter" />
+	</h:form>
+</h:panelGrid>
+</h:panelGroup> 
+
+</ui:composition>

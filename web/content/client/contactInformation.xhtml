@@ -1,0 +1,36 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript" />
+      
+	<h:panelGroup id="contactInformation" layout="block">
+		<h:panelGroup id="contactText" layout="block" style="width: 200px; margin-left: auto; margin-right: auto;">
+			<h3>Rent-a-Car inc.</h3>
+			Whitman Campus<br /> 
+			2065 Hamilton Avenue<br /> 
+			San Jose, California 95125<br /> 
+			(800) 322-9266<br />
+			(408) 376-7400<br />
+			info@rentacar.com  
+		</h:panelGroup>
+		
+		<br />
+	
+		<h:panelGroup id="contactMap" layout="block" style="width: 600px; margin-left: auto; margin-right: auto;">
+			<p:gmap
+				center="37.405909, -122.030960"
+				zoom="10"
+				type="ROADMAP"
+				model="#{imageBean.mapModel}"
+				style="width:600px;height:400px" /> 
+		</h:panelGroup>
+	</h:panelGroup>
+
+</ui:define>
+
+</ui:composition>

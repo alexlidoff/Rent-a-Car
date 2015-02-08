@@ -1,0 +1,216 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER TEXT -->
+	<h:outputText
+		value="#{texts.staffFormAddHeader}"
+		styleClass="listFormHeader"
+		rendered="#{staffBean.employee.id == null}" />
+	<h:outputText
+		value="#{texts.staffFormEditHeader}"
+		styleClass="listFormHeader"
+		rendered="#{staffBean.employee.id != null}" />
+
+<!-- EMPLOYEE FORM -->	
+	<h:form id="staffForm">
+	<p:layout style="min-width:800px;min-height:200px;height:200px;">
+	
+	
+	<p:layoutUnit position="west" size="940" styleClass="staffForm">
+	
+		<br />
+		<h:panelGrid columns="3">
+<!-- E-MAIL -->
+			<h:outputText value="#{texts.staffFormEmail} *" />
+			<p:inputText
+				id="email"
+				value="#{staffBean.employee.email}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{staffBean.validateEmail}" />
+			<p:message for="email" display="text" />
+<!-- FIRST NAME -->			
+			<h:outputText value="#{texts.staffFormFirstName} *" />
+			<p:inputText
+				id="firstName"
+				value="#{staffBean.employee.firstName}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="firstName" display="text" />
+<!-- LAST NAME -->			
+			<h:outputText value="#{texts.staffFormLastName} *" />
+			<p:inputText
+				id="lastName"
+				value="#{staffBean.employee.lastName}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="lastName" display="text" />
+<!-- POSITION -->			
+			<h:outputText value="#{texts.staffFormPosition} *" />
+			<p:inputText
+				id="position"
+				value="#{staffBean.employee.position}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}" />
+			<p:message for="position" display="text" />
+<!-- PHONE -->			
+			<h:outputText value="#{texts.staffFormPhone} *" />
+			<p:inputText
+				id="phone"
+				value="#{staffBean.employee.phone}"
+				required="true"
+				requiredMessage="#{texts.fieldEmptyMessage}"/>
+			<p:message for="phone" display="text" />
+
+		</h:panelGrid>
+		
+	</p:layoutUnit>
+
+
+	<p:layoutUnit position="center" styleClass="staffForm">
+	<h:panelGroup id="rolesListSection">
+			
+		<p:remoteCommand process="@this" name="onRowEdit" action="#{staffBean.onEditEnd}" update="rolesList roleDoubleMessage" />
+		<p:dataTable
+			value="#{staffBean.employeeRoles}"
+			var="employeeRole"
+			id="rolesList"
+			emptyMessage="#{texts.staffFormRolesListEmpty}"
+			editable="true"
+			style="width: 300px;" >
+			
+			<p:ajax
+				event="rowEdit"
+				oncomplete="onRowEdit()"/>
+		
+			<p:column headerText="#{texts.staffFormRolesListRole}" style="width: 220px;">  
+            	<p:cellEditor>  
+                	<f:facet name="output">  
+                    	<h:outputText value="#{employeeRole.role}" />  
+                	</f:facet>  
+                	<f:facet name="input">  
+                    	<p:selectOneMenu value="#{employeeRole.role}" style="width: 95%" >
+                    		<f:selectItems value="#{staffBean.allRoles}" />
+                    		<f:converter converterId="Rent-a-Car.service.converters.RoleConverter" />                    		
+                    	</p:selectOneMenu>  
+                	</f:facet>  
+            	</p:cellEditor>  
+        	</p:column>
+        
+        	<p:column
+        		headerText="#{texts.staffFormRolesListEdit}"
+        		style="width: 40px; text-align: center">  
+            		<p:rowEditor />  
+        	</p:column>
+        	<p:column
+        		headerText="#{texts.staffFormRolesListDelete}"
+        		style="width: 40px; text-align: center">
+        		<p:commandLink
+        			action="#{staffBean.deleteEmployeeRole(employeeRole)}"
+        			process="@this"
+        			update="rolesList">  
+            		<p:graphicImage value="/resources/images/disabled.png" />
+            	</p:commandLink>
+        	</p:column>   
+		
+		</p:dataTable>
+		
+		<h:panelGroup style="font-size: small;">
+		<p:messages severity="info" globalOnly="false" id="roleDoubleMessage" closable="true" showDetail="false" />
+		</h:panelGroup>
+		<p:selectOneMenu
+			id="newRole"
+			value="#{staffBean.newRole}"
+			style="width: 180px; vertical-align: middle;"
+			rendered="#{staffBean.addNewRole}">
+				<f:selectItems value="#{staffBean.allRoles}" />
+            	<f:converter converterId="Rent-a-Car.service.converters.RoleConverter" />                    		
+		</p:selectOneMenu>
+		<p:commandButton
+			icon="okButtonIcon"
+			action="#{staffBean.saveAddedNewRole}"
+			process="staffForm:newRole @this"
+			update="rolesListSection"
+			rendered="#{staffBean.addNewRole}" />
+		<p:commandButton
+			icon="cancelButtonIcon"
+			action="#{staffBean.setAddNewRole(false)}"
+			process="@this"
+			update="rolesListSection"
+			rendered="#{staffBean.addNewRole}" />				
+		<br />
+		<p:commandButton
+			value="#{texts.staffFormRolesListAdd}"
+			action="#{staffBean.setAddNewRole(true)}"
+			rendered="#{not staffBean.addNewRole}"
+			icon="addButtonIcon"
+			process="@this"
+			update="rolesListSection" />
+	
+	</h:panelGroup>
+	</p:layoutUnit>	
+	
+	
+	</p:layout>
+
+
+
+	<br />
+	<p:fieldset
+		legend="#{staffBean.passwordPanelHeader}" 
+		toggleable="#{not staffBean.mustEnterPasswords}" 
+		collapsed="#{not staffBean.mustEnterPasswords}"
+		styleClass="staffForm" >
+		<h:panelGrid columns="3">
+<!-- PASSWORD1 -->			
+			<h:outputText value="#{texts.staffFormPassword1} *" />
+			<p:password
+				id="password1"
+				value="#{staffBean.password1}"
+				required="#{staffBean.mustEnterPasswords}"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{validators.validatePassword}" />
+			<p:message id="password1Message" for="password1" display="text" />
+<!-- PASSWORD2 -->			
+			<h:outputText value="#{texts.staffFormPassword2} *" />
+			<p:password
+				id="password2"
+				value="#{staffBean.password2}"
+				required="#{staffBean.mustEnterPasswords}"
+				requiredMessage="#{texts.fieldEmptyMessage}"
+				validator="#{validators.validatePassword}" />
+			<p:message id="password2Message" for="password2" display="text" />
+<!-- PASSWORDS ARE NOT EQUAL MESSAGE -->
+			<h:outputText value="" />
+			<p:messages id="passwordsNotEqual" globalOnly="false" severity="warn" />						
+		</h:panelGrid>
+	</p:fieldset>	
+		
+	<br />
+	<h:outputText value="#{texts.requiredFields}" />
+
+<!-- BUTTONS -->		
+		<br /><br />
+		<p:commandButton
+			value="#{texts.staffFormSaveButton}"
+			icon="okButtonIcon"
+			action="#{staffBean.saveEmployee}"
+			process="@form"
+			update="@form :growl" />
+		<p:commandButton
+			value="#{texts.cancelButton}"
+			icon="cancelButtonIcon"
+			action="openStaff"
+			process="@this"
+			update="@none" />
+								
+	</h:form>
+
+</ui:define>
+	
+</ui:composition>

@@ -1,0 +1,42 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<h:form id="reportForm">
+	
+	<h:panelGrid columns="2" cellspacing="50" style="margin-left: auto; margin-right: auto;">
+	<p:barChart
+		style="width: 500px; height: 400px;"
+		id="carsByFeaturesReport1"
+		legendPosition="ne"
+		title="#{texts.reportCarsByFeaturesHeader1}"
+		barMargin="10"
+		barPadding="8"
+		orientation="vertical"
+		yaxisLabel="#{texts.reportCarsByOptionQuantity}"
+		stacked="false"
+		value="#{reportBean.barChartModel1}">
+	</p:barChart>
+	<p:barChart
+		style="width: 500px; height: 400px;"
+		id="carsByFeaturesReport2"
+		legendPosition="ne"
+		title="#{texts.reportCarsByFeaturesHeader2}"
+		barMargin="10"
+		barPadding="8"
+		yaxisLabel="#{texts.reportCarsByOptionAmount}"
+		orientation="vertical"
+		stacked="false"
+		value="#{reportBean.barChartModel2}">
+	</p:barChart>
+	</h:panelGrid>
+	
+	</h:form>
+	
+</ui:define>
+
+</ui:composition>

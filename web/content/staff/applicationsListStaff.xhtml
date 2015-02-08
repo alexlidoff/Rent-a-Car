@@ -1,0 +1,202 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- HEADER TEXT -->
+	<h:outputText value="#{texts.applicationsListStaffHeader}" styleClass="listFormHeader" />
+	
+	<h:form id="applicationsListForm">
+	
+	<p:poll interval="30" update="applicationsTable" />
+	
+	<p:dataTable
+		id="applicationsTable"
+		styleClass="applicationsTable"
+		value="#{appListStaffBean.applicationDataModel}"
+		var="app"
+		paginator="true"
+		rows="10"
+		emptyMessage="#{texts.applicationsListEmpty}"
+		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+		rowsPerPageTemplate="10,20,50,100"
+		resizableColumns="true"
+		selectionMode="single"
+		filterDelay="1000"
+		lazy="true">
+		
+		<p:ajax event="rowDblselect" listener="#{appListStaffBean.onRowDoubleClick}" process="@this" />
+		
+<!-- ID -->		
+		<p:column
+			headerText="#{texts.applicationsListId}"
+			styleClass="appIdColumn"
+			sortBy="id"
+			filterBy="id"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.id}" />
+		</p:column>
+<!-- STATUS -->		
+		<p:column
+			headerText="#{texts.applicationStatus}"
+			styleClass="appStatusColumn"
+			sortBy="applicationStatus"
+			filterBy="applicationStatus"
+			filterOptions="#{appListStaffBean.applicationStatuses}"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.applicationStatus}" />
+		</p:column>
+<!-- CLIENT FIRST NAME -->		
+		<p:column
+			headerText="#{texts.applicationsListClientFirstName}"
+			styleClass="appFirstNameColumn"
+			sortBy="#{app.client.firstName}"
+			filterBy="#{app.client.firstName}"
+			filterMatchMode="contains"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.client.firstName}" />
+		</p:column>
+<!-- CLIENT LAST NAME -->		
+		<p:column
+			headerText="#{texts.applicationsListClientLastName}"
+			styleClass="appLastNameColumn"
+			sortBy="#{app.client.lastName}"
+			filterBy="#{app.client.lastName}"
+			filterMatchMode="contains"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.client.lastName}" />
+		</p:column>
+<!-- VEHICLE NAME -->		
+		<p:column
+			headerText="#{texts.applicationVehicle}"
+			styleClass="appVehicleColumn"
+			sortBy="#{app.vehicle.name}"
+			filterBy="#{app.vehicle.name}"
+			filterMatchMode="contains"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.vehicle.name}" />
+		</p:column>
+<!-- START DATE -->		
+		<p:column
+			headerText="#{texts.applicationStartDate}"
+			styleClass="appStartDateColumn"
+			sortBy="startDate"
+			filterBy="startDate"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.startDate}">
+				<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+			</h:outputText>
+		</p:column>
+<!-- END DATE -->		
+		<p:column
+			headerText="#{texts.applicationEndDate}"
+			styleClass="appEndDateColumn"
+			sortBy="endDate"
+			filterBy="endDate"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.endDate}">
+				<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+			</h:outputText>
+		</p:column>
+<!-- AMOUNT -->		
+		<p:column
+			id="amount"
+			headerText="#{texts.applicationsListAmount}"
+			styleClass="appAmountColumn"
+			sortBy="amount"
+			filterBy="amount"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.amount}" />
+		</p:column>
+<!-- AMOUNT PAID -->		
+		<p:column
+			headerText="#{texts.applicationPaid}"
+			styleClass="appAmountPaidColumn"
+			sortBy="rentPaid"
+			filterBy="rentPaid"
+			filterOptions="#{appListStaffBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<p:graphicImage
+				value="/resources/images/paid.png"
+				rendered="#{app.rentPaid}" />
+		</p:column>
+<!-- EXTRA PAY -->		
+		<p:column
+			headerText="#{texts.applicationsListExtraPay}"
+			styleClass="appExtraPayColumn"
+			sortBy="extraPayment"
+			filterBy="extraPayment"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<h:outputText value="#{app.extraPayment}" />
+		</p:column>
+<!-- EXTRA PAID -->		
+		<p:column
+			headerText="#{texts.applicationPaid}"
+			styleClass="appExtraPaidColumn"
+			sortBy="extraPaid"
+			filterBy="extraPaid"
+			filterOptions="#{appListStaffBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<p:graphicImage
+				value="/resources/images/paid.png"
+				rendered="#{app.extraPaid}" />
+		</p:column>
+<!-- VEHICLE RELEASED -->		
+		<p:column
+			headerText="#{texts.applicationsListVehicleReleased}"
+			styleClass="appVehicleReleasedColumn"
+			sortBy="vehicleReleased"
+			filterBy="vehicleReleased"
+			filterOptions="#{appListStaffBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<p:graphicImage
+				value="/resources/images/arrow-out.png"
+				rendered="#{app.vehicleReleased}" />
+		</p:column>
+<!-- VEHICLE RELEASED -->		
+		<p:column
+			headerText="#{texts.applicationsListVehicleAccepted}"
+			styleClass="appVehicleAcceptedColumn"
+			sortBy="vehicleAccepted"
+			filterBy="vehicleAccepted"
+			filterOptions="#{appListStaffBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="applicationsTableFilter">
+			<p:graphicImage
+				value="/resources/images/arrow-in.png"
+				rendered="#{app.vehicleAccepted}" />
+		</p:column>
+<!-- OPEN LINK -->		
+		<p:column
+			styleClass="appActionColumn">
+			<h:commandLink
+				action="#{appListStaffBean.openApplication(app)}"
+				value="#{texts.applicationsListOpen}" />
+		</p:column>																										
+		
+	</p:dataTable>
+	
+<!-- ADD BUTTON -->	
+	<br />
+	<p:commandButton
+		value="#{texts.applicationsListAdd}"
+		action="#{appListStaffBean.openApplication(null)}"
+		icon="addButtonIcon" />	
+
+	</h:form>	
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,45 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<h:form id="clientForm" style="margin: 0px 0px 70px;">
+	<h:panelGrid columns="2" style="border-collapse: collapse;border-spacing: 0px;margin-left: auto; margin-right: auto;">
+	<h:panelGroup id="loginSection" layout="block" styleClass="loginPageLogin">
+		<h:outputText value="#{texts.email}" />
+		<br />
+		<p:inputText value="#{userBean.login}" required="true" />
+		<br /><br />
+		<h:outputText value="#{texts.password}" />
+		<br />
+		<p:password value="#{userBean.password}" required="true" />
+		<br /><br />
+		<p:commandButton 
+			value="#{texts.loginLink}" 
+			action="#{userBean.login()}" 
+			icon="loginButtonIcon"
+			process="@form"
+			update="@form :growl" /> 
+	</h:panelGroup>
+	
+	<h:panelGroup id="registerSection" layout="block" styleClass="loginPageRegister">
+		<h:panelGroup layout="block" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 50px;">
+			<h:outputText value="#{texts.loginPageNewUser}" style="font-size: large; font-weight: bold;" />
+			<br /><br />
+			<p:commandButton
+				value="#{texts.registerLink}" 
+				action="openClientProfileForm"
+				icon="registerButtonIcon"
+				process="@this" />
+			</h:panelGroup>
+	</h:panelGroup>
+	</h:panelGrid>
+	
+	</h:form>
+
+</ui:define>
+
+</ui:composition>

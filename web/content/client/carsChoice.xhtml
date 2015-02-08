@@ -1,0 +1,249 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+<!-- SETTING BEAN INTO CLIENT MODE -->	
+	#{vehiclesListBean.setClientMode(true)}
+
+	
+<h:form id="carChoiceForm">
+	
+	<h:panelGroup id="periodChooseBlock" layout="block" style="font-size: medium; float: right;">
+	<h:panelGrid columns="6">
+<!-- START DATE -->			
+	<h:outputText value="#{texts.applicationStartDate}:" />
+	<p:calendar
+		id="startDate"
+		widgetVar="startDateCalendar"
+		styleClass="dateInput"
+		readonlyInput="true"
+		value="#{vehiclesListBean.startDate}"
+		pattern="dd.mm.yyyy">
+		<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+		<p:ajax event="dateSelect" update="carChoiceTable" />
+	</p:calendar>
+	<p:commandButton
+		icon="cancelButtonIcon"
+		style="height: 33px; width: 35px;" 
+		action="#{vehiclesListBean.setStartDate(null)}"
+		onclick="startDateCalendar.setDate(null)"
+		process="@this"
+		update="carChoiceTable" />		
+<!-- END DATE -->			
+	<h:outputText value="#{texts.applicationEndDate}:" />
+	<p:calendar
+		id="endDate"
+		widgetVar="endDateCalendar"
+		styleClass="dateInput"
+		readonlyInput="true"
+		value="#{vehiclesListBean.endDate}"
+		pattern="dd.mm.yyyy">
+		<f:converter converterId="Rent-a-Car.service.converters.DateConverter" />
+		<p:ajax event="dateSelect" update="carChoiceTable" />
+	</p:calendar>
+	<p:commandButton
+		icon="cancelButtonIcon"
+		style="height: 33px; width: 35px;" 
+		action="#{vehiclesListBean.setEndDate(null)}"
+		onclick="endDateCalendar.setDate(null)"
+		process="@this"
+		update="carChoiceTable" />
+	</h:panelGrid>
+	</h:panelGroup>
+	
+<!-- HEADER -->	
+	<h:outputText value="#{texts.carChoiceHeader}:" styleClass="listFormHeader" />
+	
+<!-- VEHICLES TABLE -->	
+	<p:dataTable
+		id="carChoiceTable"
+		styleClass="carChoiceTable"
+		rowStyleClass="carChoiceTableRow"
+		value="#{vehiclesListBean.vehicleDataModel}"
+		var="vehicle"
+		paginator="true"
+		rows="5"
+		emptyMessage="#{texts.vehiclesListEmpty}"
+		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+		rowsPerPageTemplate="5,10,20,50,100"
+		resizableColumns="true"
+		filterDelay="1000"
+		lazy="true">
+
+<!-- RENT LINK -->		
+		<p:column
+			styleClass="carChoiceActionColumn">
+			<h:commandLink
+				value="#{texts.rentVehicleLink}"
+				action="#{vehicleBean.rentVehicle(vehicle)}" />
+		</p:column>
+
+<!-- NAME -->		
+		<p:column
+			headerText="#{texts.vehiclesListName}"
+			styleClass="carChoiceNameColumn"
+			sortBy="name"
+			filterBy="name"
+			filterMatchMode="contains"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.name}" styleClass="carChoicevehicleName" />
+			<br /><br />
+			<h:outputText value="#{texts.vehiclesListYear} : " />
+			<h:outputText value="#{vehicle.year}" />
+			<br /><br />
+			<h:outputText value="#{vehicle.engine}" />
+			<br /><br />
+			<p:commandLink
+				actionListener="#{vehiclesListBean.vehicleScheduleClicked(vehicle)}"
+				value="#{texts.vehicleSchedule}"
+				oncomplete="PF('vehicleScheduleDialog').show();"
+				style="font-size: small; color: blue;"
+				process="@this"
+				update=":scheduleDialog" />
+			<br /><br />
+			<h:panelGroup styleClass="carChoiceDescriptionLabel" layout="block">
+				<h:outputText value="#{texts.vehicleDescription}" />
+			</h:panelGroup>
+			<p:rowToggler />
+				 
+		</p:column>
+<!-- CLASS -->		
+		<p:column
+			headerText="#{texts.vehiclesListClass}"
+			styleClass="carChoiceClassColumn"
+			sortBy="vehicleClass"
+			filterBy="vehicleClass"
+			filterOptions="#{vehiclesListBean.vehicleClasses}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.vehicleClass}" />
+		</p:column>
+<!-- TYPE -->		
+		<p:column
+			headerText="#{texts.vehiclesListType}"
+			styleClass="carChoiceTypeColumn"
+			sortBy="vehicleType"
+			filterBy="vehicleType"
+			filterOptions="#{vehiclesListBean.vehicleTypes}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.vehicleType.name}" />
+		</p:column>
+<!-- GEARBOX -->		
+		<p:column
+			headerText="#{texts.vehiclesListGearbox}"
+			styleClass="carChoiceGearboxColumn"
+			sortBy="gearbox"
+			filterBy="gearbox"
+			filterOptions="#{vehiclesListBean.gearboxes}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.gearbox}">
+				<f:converter converterId="Rent-a-Car.service.converters.GearboxConverter" />
+			</h:outputText>
+		</p:column>
+<!-- DRIVE -->		
+		<p:column
+			headerText="#{texts.vehiclesListDrive}"
+			styleClass="carChoiceDriveColumn"
+			sortBy="drive"
+			filterBy="drive"
+			filterOptions="#{vehiclesListBean.drives}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.drive}">
+				<f:converter converterId="Rent-a-Car.service.converters.DriveConverter" />
+			</h:outputText>
+		</p:column>
+<!-- AC -->		
+		<p:column
+			headerText="#{texts.vehiclesListAC}"
+			styleClass="carChoiceIconColumn"
+			sortBy="ac"
+			filterBy="ac"
+			filterOptions="#{vehiclesListBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<p:graphicImage
+				value="/resources/images/ac.png"
+				rendered="#{vehicle.ac}" />
+		</p:column>
+<!-- CRUISE CONTROL -->		
+		<p:column
+			headerText="#{texts.vehiclesListCruiseControl}"
+			styleClass="carChoiceIconColumn"
+			sortBy="cruiseControl"
+			filterBy="cruiseControl"
+			filterOptions="#{vehiclesListBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<p:graphicImage
+				value="/resources/images/speedometer.png"
+				rendered="#{vehicle.cruiseControl}" />
+		</p:column>
+<!-- CABRIOLET -->		
+		<p:column
+			headerText="#{texts.vehiclesListCabriolet}"
+			styleClass="carChoiceIconColumn"
+			sortBy="cabriolet"
+			filterBy="cabriolet"
+			filterOptions="#{vehiclesListBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<p:graphicImage
+				value="/resources/images/cabrio.png"
+				rendered="#{vehicle.cabriolet}" />
+		</p:column>						
+<!-- PRICE -->		
+		<p:column
+			headerText="#{texts.vehiclesListPrice}, $"
+			styleClass="carChoicePriceColumn"
+			sortBy="price"
+			filterBy="price"
+			filterMatchMode="exact"
+			filterStyleClass="carChoiceTableFilter">
+			<h:outputText value="#{vehicle.price}" />
+		</p:column>				
+<!-- PHOTO -->		
+		<p:column
+			styleClass="carChoicePhotoColumn">
+			<p:graphicImage value="#{imageBean.image}" styleClass="vehicleSmallPhoto" cache="false">
+				<f:param name="vehicleId" value="#{vehicle.id}" />
+			</p:graphicImage>
+		</p:column>
+
+<!-- DESCRIPTION -->		
+	<p:rowExpansion>
+		<h:panelGroup styleClass="carChoiceDescriptionBlock">
+			<h:outputText value="#{vehicle.description}" />
+		</h:panelGroup>
+	</p:rowExpansion>		
+			
+	</p:dataTable>
+	
+</h:form>
+
+
+<!-- VEHICLE SCHEDULE DIALOG -->	
+<p:dialog
+	id="scheduleDialog"
+	widgetVar="vehicleScheduleDialog"
+	modal="true"
+	dynamic="true"
+	closeOnEscape="true"
+	height="360"
+	width="400"
+	resizable="false">
+		
+	<ui:include src="/content/client/vehicleSchedule.xhtml" />
+		
+</p:dialog>
+
+
+</ui:define>
+	
+</ui:composition>

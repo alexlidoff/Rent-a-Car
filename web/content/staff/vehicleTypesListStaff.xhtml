@@ -1,0 +1,102 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<h:outputText value="#{texts.vehicleTypesListHeader}" styleClass="listFormHeader" />
+
+	<h:form id="vehicleTypesListForm">
+	
+	<p:dataTable
+		value="#{vehicleTypeBean.vehicleTypes}"
+		var="vehType"
+		id="vehicleTypesList"
+		editable="true"
+		style="width: 400px;" >
+		
+		<p:ajax
+			event="rowEdit"
+			listener="#{vehicleTypeBean.onEditEnd}"
+			update="vehicleTypesList :growl" /> 
+		
+		<p:column headerText="#{texts.vehicleTypesListName}" style="width: 320px;">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{vehType.name}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <p:inputText value="#{vehType.name}" style="width: 95%"/>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column>
+        
+        <p:column
+        	headerText="#{texts.vehicleTypesListEdit}"
+        	style="width: 40px; text-align: center">  
+            <p:rowEditor />  
+        </p:column>
+        <p:column
+        	headerText="#{texts.vehicleTypesListDelete}"
+        	style="width: 40px; text-align: center"
+        	rendered="#{userBean.userAdmin}">
+        	<p:commandLink
+        		action="#{vehicleTypeBean.deleteVehicleType(vehType)}"
+        		update="@form vehicleTypesList :growl">
+        		<p:confirm
+        			header="#{texts.deleteConfirmationHeader}"
+        			message="#{texts.deleteConfirmationText}"
+        			icon="ui-icon-alert" />  
+            	<p:graphicImage value="/resources/images/disabled.png" />
+            </p:commandLink>
+        </p:column>   
+		
+	</p:dataTable>
+	
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+        <p:commandButton
+        	value="#{texts.booleanTrue}"
+        	styleClass="ui-confirmdialog-yes"
+        	type="button"
+        	icon="okButtonIcon" />  
+        <p:commandButton
+        	value="#{texts.booleanFalse}"
+        	styleClass="ui-confirmdialog-no"
+        	type="button"
+        	icon="cancelButtonIcon" />       
+    </p:confirmDialog>
+	
+	<p:inputText
+		value="#{vehicleTypeBean.newVehicleTypeName}"
+		style="width: 260px;"
+		required="true"
+		rendered="#{vehicleTypeBean.addNewVehicleType}" />
+	<p:commandButton
+		icon="okButtonIcon"
+		action="#{vehicleTypeBean.saveAddedNewVehicleType()}"
+		process="@form"
+		update="@form vehicleTypesList :growl"
+		rendered="#{vehicleTypeBean.addNewVehicleType}" />
+	<p:commandButton
+		icon="cancelButtonIcon"
+		action="#{vehicleTypeBean.cancelAddingNewVehicleType()}"
+		process="@this"
+		update="@form"
+		rendered="#{vehicleTypeBean.addNewVehicleType}" />	
+			
+	<br />
+	<p:commandButton
+		value="#{texts.vehicleTypesListAdd}"
+		action="#{vehicleTypeBean.addVehicleType}"
+		rendered="#{not vehicleTypeBean.addNewVehicleType}"
+		icon="addButtonIcon"
+		process="@this"
+		update="@form" />
+	
+	</h:form>
+
+</ui:define>
+
+</ui:composition>

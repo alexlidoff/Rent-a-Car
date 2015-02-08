@@ -1,0 +1,59 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:define name="pageContent">
+
+	<h:form id="reportForm">
+	
+	<h:panelGroup id="reportSettings" layout="block">
+	<h:panelGrid columns="3" style="margin-left: auto; margin-right: auto;">
+<!-- OPTION SELECT -->
+	<p:selectOneRadio
+		id="option"
+		value="#{reportBean.option}"
+		required="true">
+		<f:selectItem itemValue="1" itemLabel="#{texts.vehicleClass}" />
+		<f:selectItem itemValue="2" itemLabel="#{texts.vehicleType}" />
+		<f:selectItem itemValue="3" itemLabel="#{texts.vehicleGearbox}" />
+		<f:selectItem itemValue="4" itemLabel="#{texts.vehicleDrive}" />
+	</p:selectOneRadio>
+<!-- INDICATOR SELECT -->
+	<p:selectOneRadio
+		id="indicator"
+		style="padding-left: 50px; padding-right: 50px;"
+		value="#{reportBean.indicator}"
+		required="true">
+		<f:selectItem itemValue="0" itemLabel="#{texts.reportCarsByOptionQuantity}" />
+		<f:selectItem itemValue="1" itemLabel="#{texts.reportCarsByOptionAmount}" />
+	</p:selectOneRadio>
+<!-- BUTTON SHOW -->
+	<p:commandButton
+			value="#{texts.reportCarsByOptionButtonShow}"
+			action="#{reportBean.showReportCarsByOptions}"
+			icon="okButtonIcon"
+			process="@form"
+			update="carsByOptionsReport" />
+	</h:panelGrid>
+	</h:panelGroup>
+	
+	<p:pieChart
+		style="width: 800px; height: 500px; margin-left: auto; margin-right: auto;"
+		id="carsByOptionsReport"
+		diameter="400"
+		fill="true"
+		showDataLabels="true"
+		legendPosition="e"
+		dataFormat="value"
+		title="#{texts.reportCarsByOptionHeader}"
+		sliceMargin="5"
+		value="#{reportBean.pieChartModel}">
+	</p:pieChart>
+	
+	</h:form>
+	
+</ui:define>
+
+</ui:composition>

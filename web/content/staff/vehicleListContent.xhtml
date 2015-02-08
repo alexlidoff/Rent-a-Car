@@ -1,0 +1,198 @@
+<ui:composition
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+		
+	<h:form id="vehiclesListForm">
+	
+	<p:dataTable
+		id="vehiclesTable"
+		styleClass="vehiclesTable"
+		value="#{vehiclesListBean.vehicleDataModel}"
+		var="vehicle"
+		paginator="true"
+		rows="10"
+		emptyMessage="#{texts.vehiclesListEmpty}"
+		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+		rowsPerPageTemplate="10,20,50,100"
+		resizableColumns="true"
+		filterDelay="1000"
+		selectionMode="single"
+		lazy="true">
+		
+<!-- AJAX FOR CHOOSE MODE -->			
+			<p:ajax
+				disabled="#{not vehiclesListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{vehiclesListBean.onRowDoubleClick}"
+				process="@this"
+				update=":applicationForm :appScheduleDialog" />
+<!-- AJAX FOR NON-CHOOSE MODE -->				
+			<p:ajax
+				disabled="#{vehiclesListBean.chooseMode}"
+				event="rowDblselect"
+				listener="#{vehiclesListBean.onRowDoubleClick}"
+				process="@this"/>
+
+<!-- DISABLED -->		
+		<p:column
+			headerText="#{texts.vehiclesListDisabled}"
+			styleClass="vehicleDisabledColumn"
+			sortBy="disabled"
+			filterBy="disabled"
+			filterOptions="#{vehiclesListBean.booleanOptions}"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<p:graphicImage
+				value="/resources/images/disabled.png"
+				rendered="#{vehicle.disabled}" />
+		</p:column>
+<!-- VIN -->		
+		<p:column
+			headerText="#{texts.vehiclesListVIN}"
+			styleClass="vehicleVINColumn"
+			sortBy="VIN"
+			filterBy="VIN"
+			filterMatchMode="contains"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.VIN}" />
+		</p:column>
+<!-- NAME -->		
+		<p:column
+			headerText="#{texts.vehiclesListName}"
+			styleClass="vehicleNameColumn"
+			sortBy="name"
+			filterBy="name"
+			filterMatchMode="contains"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.name}" />
+		</p:column>
+<!-- YEAR -->		
+		<p:column
+			headerText="#{texts.vehiclesListYear}"
+			styleClass="vehicleYearColumn"
+			sortBy="year"
+			filterBy="year"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.year}" />
+		</p:column>
+<!-- CLASS -->		
+		<p:column
+			headerText="#{texts.vehiclesListClass}"
+			styleClass="vehicleClassColumn"
+			sortBy="vehicleClass"
+			filterBy="vehicleClass"
+			filterOptions="#{vehiclesListBean.vehicleClasses}"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.vehicleClass}" />
+		</p:column>
+<!-- TYPE -->		
+		<p:column
+			headerText="#{texts.vehiclesListType}"
+			styleClass="vehicleTypeColumn"
+			sortBy="vehicleType"
+			filterBy="vehicleType"
+			filterOptions="#{vehiclesListBean.vehicleTypes}"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.vehicleType.name}" />
+		</p:column>
+<!-- ENGINE -->		
+		<p:column
+			headerText="#{texts.vehiclesListEngine}"
+			styleClass="vehicleEngineColumn"
+			sortBy="engine"
+			filterBy="engine"
+			filterMatchMode="contains"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.engine}" />
+		</p:column>
+<!-- GEARBOX -->		
+		<p:column
+			headerText="#{texts.vehiclesListGearbox}"
+			styleClass="vehicleGearboxColumn"
+			sortBy="gearbox"
+			filterBy="gearbox"
+			filterOptions="#{vehiclesListBean.gearboxes}"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.gearbox}">
+				<f:converter converterId="Rent-a-Car.service.converters.GearboxConverter" />
+			</h:outputText>
+		</p:column>
+<!-- DRIVE -->		
+		<p:column
+			headerText="#{texts.vehiclesListDrive}"
+			styleClass="vehicleDriveColumn"
+			sortBy="drive"
+			filterBy="drive"
+			filterOptions="#{vehiclesListBean.drives}"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.drive}">
+				<f:converter converterId="Rent-a-Car.service.converters.DriveConverter" />
+			</h:outputText>
+		</p:column>
+<!-- PRICE -->		
+		<p:column
+			headerText="#{texts.vehiclesListPrice}, $"
+			styleClass="vehiclePriceColumn"
+			sortBy="price"
+			filterBy="price"
+			filterMatchMode="exact"
+			filterStyleClass="vehiclesTableFilter">
+			<h:outputText value="#{vehicle.price}" />
+		</p:column>
+<!-- VIEW SCHEDULE LINK -->		
+		<p:column
+			rendered="#{not vehiclesListBean.chooseMode}"
+			styleClass="vehicleActionColumn">
+			<p:commandLink
+				actionListener="#{vehiclesListBean.vehicleScheduleClicked(vehicle)}"
+				value="#{texts.vehiclesListSchedule}"
+				oncomplete="PF('vehicleScheduleDialog').show();"
+				process="@this"
+				update=":scheduleDialog" />
+		</p:column>		
+<!-- OPEN LINK -->		
+		<p:column
+			rendered="#{not vehiclesListBean.chooseMode}"
+			styleClass="vehicleActionColumn">
+			<h:commandLink
+				action="#{vehiclesListBean.openVehicle(vehicle)}"
+				value="#{texts.vehiclesListOpen}" />
+		</p:column>
+<!-- CHOOSE LINK -->		
+		<p:column
+			rendered="#{vehiclesListBean.chooseMode}"
+			styleClass="vehicleActionColumn">
+			<h:commandLink
+				action="#{vehiclesListBean.chooseVehicle(vehicle)}"
+				value="#{texts.vehiclesListChoose}" />
+		</p:column>		
+		
+	</p:dataTable>
+
+	</h:form>
+	
+
+
+<!-- VEHICLE SCHEDULE DIALOG -->	
+<p:dialog
+	id="scheduleDialog"
+	widgetVar="vehicleScheduleDialog"
+	modal="true"
+	dynamic="true"
+	closeOnEscape="true"
+	height="360"
+	width="400"
+	resizable="false">
+		
+	<ui:include src="/content/client/vehicleSchedule.xhtml" />
+		
+</p:dialog>	
+
+</ui:composition>
