@@ -18,41 +18,41 @@ import model.Client;
 @Named(value = "applicationsListBean")
 @RequestScoped
 public class ApplicationsListBean {
-    
+
     @Inject
     private ApplicationManager applicationManager;
     @Inject
     private UserBean userBean;
     private Client client;
-    
-    
+
+
     public ApplicationsListBean() {
     }
-    
+
     @PostConstruct
-    private void init() {	
-	client = userBean.getUserClient();
+    private void init() {
+        client = userBean.getUserClient();
     }
-    
-        
+
+
     //methods
     public List<Application> getClientApplications() {
-	return applicationManager.getClientApplications(client);
+        return applicationManager.getClientApplications(client);
     }
-    
+
     public String makePayment(Application application) {
-	//setting chosen application to flash to get it in the PaymentBean
-	TransBeanCommunication.putValue("applicationToPay", application);
-	return "openPaymentSystem";
+        //setting chosen application to flash to get it in the PaymentBean
+        TransBeanCommunication.putValue("applicationToPay", application);
+        return "openPaymentSystem";
     }
 
     public String getNotPaidText(Application application) {
-	if (application.isRentPaid() 
-		|| application.getApplicationStatus() == ApplicationStatus.Canceled
-		|| application.getApplicationStatus() == ApplicationStatus.Declined) {
-	    return ""; 
-	}
-	return LocalizationManager.getLocalizedText("notPaidSign");
+        if (application.isRentPaid()
+                || application.getApplicationStatus() == ApplicationStatus.Canceled
+                || application.getApplicationStatus() == ApplicationStatus.Declined) {
+            return "";
+        }
+        return LocalizationManager.getLocalizedText("notPaidSign");
     }
-    
+
 }

@@ -22,13 +22,13 @@ import dao.GetIdAble;
 @Entity
 @Table(name = "vehicles")
 @NamedQueries({
-    @NamedQuery(name = "Vehicle.getAll",
-	query = "SELECT veh FROM Vehicle AS veh"),
-    @NamedQuery(name = "Vehicle.getAllNotDisabled",
-    	query = "SELECT veh FROM Vehicle AS veh WHERE veh.disabled = false")
+        @NamedQuery(name = "Vehicle.getAll",
+                query = "SELECT veh FROM Vehicle AS veh"),
+        @NamedQuery(name = "Vehicle.getAllNotDisabled",
+                query = "SELECT veh FROM Vehicle AS veh WHERE veh.disabled = false")
 })
 public class Vehicle implements Serializable, GetIdAble<Integer> {
-    
+
     private static final long serialVersionUID = 3680293448882398045L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,106 +66,136 @@ public class Vehicle implements Serializable, GetIdAble<Integer> {
     private byte[] photo;
     @Column(name = "disabled", columnDefinition = "BIT", length = 1)
     private boolean disabled;
-    
-    
+
+
     //getters
     public Integer getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public String getVIN() {
         return VIN;
     }
+
     public VehicleClass getVehicleClass() {
         return vehicleClass;
     }
+
     public VehicleType getVehicleType() {
         return vehicleType;
     }
+
     public short getYear() {
         return year;
     }
+
     public short getGearbox() {
         return gearbox;
     }
+
     public String getEngine() {
         return engine;
     }
+
     public short getDrive() {
         return drive;
     }
+
     public boolean isAc() {
         return ac;
     }
+
     public boolean isCruiseControl() {
         return cruiseControl;
     }
+
     public boolean isCabriolet() {
         return cabriolet;
     }
+
     public BigDecimal getPrice() {
         return price;
     }
+
     public String getDescription() {
         return description;
     }
+
     public byte[] getPhoto() {
         return photo;
     }
+
     public boolean isDisabled() {
         return disabled;
     }
-    
+
     //setters
     public void setId(Integer id) {
         this.id = id;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setVIN(String VIN) {
         this.VIN = VIN;
     }
+
     public void setVehicleClass(VehicleClass vehicleClass) {
         this.vehicleClass = vehicleClass;
     }
+
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
     }
+
     public void setYear(short year) {
         this.year = year;
     }
+
     public void setGearbox(short gearbox) {
         this.gearbox = gearbox;
     }
+
     public void setEngine(String engine) {
         this.engine = engine;
     }
+
     public void setDrive(short drive) {
         this.drive = drive;
     }
+
     public void setAc(boolean ac) {
         this.ac = ac;
     }
+
     public void setCruiseControl(boolean cruiseControl) {
         this.cruiseControl = cruiseControl;
     }
+
     public void setCabriolet(boolean cabriolet) {
         this.cabriolet = cabriolet;
     }
+
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
+
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
-    
+
 }

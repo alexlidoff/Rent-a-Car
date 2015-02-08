@@ -13,14 +13,14 @@ public class VehicleClassConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component,
-	    String value) {
-	return VehicleClass.valueOf(value);
+                              String value) {
+        return VehicleClass.valueOf(value);
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component,
-	    Object value) {
-	return value.toString();
+                              Object value) {
+        return value.toString();
     }
 
 }

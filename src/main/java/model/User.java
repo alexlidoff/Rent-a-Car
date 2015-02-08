@@ -21,9 +21,9 @@ import dao.GetIdAble;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "User.getAll", query = "SELECT u FROM User AS u"),
-    @NamedQuery(name = "User.getByLogin",
-    	query = "SELECT u FROM User AS u WHERE u.login = :login")
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM User AS u"),
+        @NamedQuery(name = "User.getByLogin",
+                query = "SELECT u FROM User AS u WHERE u.login = :login")
 })
 public class User implements Serializable, GetIdAble<Integer> {
 
@@ -36,10 +36,10 @@ public class User implements Serializable, GetIdAble<Integer> {
     private String login;
     @Column(name = "password", nullable = false)
     private String password;
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="user", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> userRoles;
-    
-    
+
+
     public User() {
     }
 
@@ -48,12 +48,15 @@ public class User implements Serializable, GetIdAble<Integer> {
     public Integer getId() {
         return id;
     }
+
     public String getLogin() {
         return login;
     }
+
     public String getPassword() {
         return password;
     }
+
     public List<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -63,14 +66,17 @@ public class User implements Serializable, GetIdAble<Integer> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public void setUserRoles(List<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
-    
+
 }

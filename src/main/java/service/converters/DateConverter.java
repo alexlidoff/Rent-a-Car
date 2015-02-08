@@ -16,22 +16,22 @@ public class DateConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component,
-	    String value) {
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-	Date date;
-	try {
-	    date = sdf.parse(value);
-	} catch (ParseException e) {
-	    date = null;
-	}
-	return date;
+                              String value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Date date;
+        try {
+            date = sdf.parse(value);
+        } catch (ParseException e) {
+            date = null;
+        }
+        return date;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component,
-	    Object value) {
-	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-	return dateFormat.format(value);
+                              Object value) {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        return dateFormat.format(value);
     }
 
 }

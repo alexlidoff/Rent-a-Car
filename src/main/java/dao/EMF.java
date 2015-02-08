@@ -1,19 +1,31 @@
 package dao;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
+@WebListener
 public class EMF implements ServletContextListener {
 
-    private static EMF
+    private static EntityManagerFactory emf;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-
+        emf = Persistence.createEntityManagerFactory("Rent-a-Car");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        emf.close();
+    }
 
+    public static EntityManager createEntityManager() {
+        if (emf == null) {
+            throw new IllegalStateException("Context is not initialized");
+        }
+        return emf.createEntityManager();
     }
 }

@@ -23,39 +23,39 @@ public class ImageUploadBean implements Serializable {
     private Vehicle vehicle;
     @Inject
     private ImageBean imageBean;
-    
+
     public Vehicle getVehicle() {
-	return vehicle;
-    }
-    
-    public void setVehicle(Vehicle vehicle) {
-	this.vehicle = vehicle;
+        return vehicle;
     }
 
-    
-    public long getRandomValue() {
-	return System.currentTimeMillis();
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
-    
+
+
+    public long getRandomValue() {
+        return System.currentTimeMillis();
+    }
+
     public StreamedContent getImage() {
-	FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             //rendering the view phase.
             //Return a stub StreamedContent so that it will generate right URL.
             return new DefaultStreamedContent();
-        } else {            
+        } else {
             //browser is requesting the image.
             //Return a real StreamedContent with the image bytes.
             if (vehicle.getPhoto() == null) {
-        	
-        	return imageBean.getImage(vehicle.getId());
-        	
+
+                return imageBean.getImage(vehicle.getId());
+
             } else {
-              
-        	return new DefaultStreamedContent(
-        		new ByteArrayInputStream(vehicle.getPhoto()) );
+
+                return new DefaultStreamedContent(
+                        new ByteArrayInputStream(vehicle.getPhoto()));
             }
         }
     }
-    
+
 }

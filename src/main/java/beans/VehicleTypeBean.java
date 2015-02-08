@@ -21,92 +21,95 @@ import dao.VehicleTypeDAO;
 @Named("vehicleTypeBean")
 @ViewScoped
 public class VehicleTypeBean implements Serializable {
-    
+
     private static final long serialVersionUID = -7598254029056142014L;
     private List<VehicleType> vehicleTypes;
     @Inject
     private VehicleTypeDAO vehicleTypeDAO;
     private String newVehicleTypeName;
-    private boolean addNewVehicleType; 
-    
-    
+    private boolean addNewVehicleType;
+
+
     public VehicleTypeBean() {
-	addNewVehicleType = false;
+        addNewVehicleType = false;
     }
-    
+
     @PostConstruct
     public void init() {
-	vehicleTypes = vehicleTypeDAO.getAll();
+        vehicleTypes = vehicleTypeDAO.getAll();
     }
-    
-    
+
+
     //getters
     public String getNewVehicleTypeName() {
-	return newVehicleTypeName;
+        return newVehicleTypeName;
     }
+
     public List<VehicleType> getVehicleTypes() {
-	return vehicleTypes;
-    }    
+        return vehicleTypes;
+    }
+
     public boolean isAddNewVehicleType() {
-	return addNewVehicleType;
+        return addNewVehicleType;
     }
 
 
     //setters
     public void setNewVehicleTypeName(String newVehicleTypeName) {
-	this.newVehicleTypeName = newVehicleTypeName;
-    }
-    public void setAddNewVehicleType(boolean addNewVehicleType) {
-	this.addNewVehicleType = addNewVehicleType;
+        this.newVehicleTypeName = newVehicleTypeName;
     }
 
-    
+    public void setAddNewVehicleType(boolean addNewVehicleType) {
+        this.addNewVehicleType = addNewVehicleType;
+    }
+
+
     //methods
     public void showMessage(String name) {
-	FacesContext context = FacesContext.getCurrentInstance();
-	context.addMessage(null, new FacesMessage(
-		LocalizationManager.getLocalizedText("vehicleTypeSavedMessage1", name),
-		LocalizationManager.getLocalizedText("vehicleTypeSavedMessage2")));
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(
+                LocalizationManager.getLocalizedText("vehicleTypeSavedMessage1", name),
+                LocalizationManager.getLocalizedText("vehicleTypeSavedMessage2")));
     }
-    
+
     public void onEditEnd(RowEditEvent event) {
-	VehicleType vehicleType = (VehicleType) event.getObject();
-	if (vehicleType.getId() == null) {
-	    vehicleTypeDAO.save(vehicleType);
-	} else {
-	    vehicleTypeDAO.update(vehicleType);
-	}
-	showMessage(vehicleType.getName());
+        VehicleType vehicleType = (VehicleType) event.getObject();
+        if (vehicleType.getId() == null) {
+            vehicleTypeDAO.save(vehicleType);
+        } else {
+            vehicleTypeDAO.update(vehicleType);
+        }
+        showMessage(vehicleType.getName());
     }
 
     public void addVehicleType() {
-	addNewVehicleType = true;
+        addNewVehicleType = true;
     }
-    
+
     public void saveAddedNewVehicleType() {
-	VehicleType vehicleType = new VehicleType();
-	vehicleType.setName(newVehicleTypeName);
-	vehicleTypeDAO.save(vehicleType);
-	
-	vehicleTypes.add(vehicleType);
-	
-	showMessage(newVehicleTypeName);
-	newVehicleTypeName = "";
-	addNewVehicleType = false;
+        VehicleType vehicleType = new VehicleType();
+        vehicleType.setName(newVehicleTypeName);
+        vehicleTypeDAO.save(vehicleType);
+
+        vehicleTypes.add(vehicleType);
+
+        showMessage(newVehicleTypeName);
+        newVehicleTypeName = "";
+        addNewVehicleType = false;
     }
-    
+
     public void cancelAddingNewVehicleType() {
-  	addNewVehicleType = false;
+        addNewVehicleType = false;
     }
-    
+
     public void deleteVehicleType(VehicleType vehicleType) {
-	vehicleTypeDAO.delete(vehicleType);
-	vehicleTypes = vehicleTypeDAO.getAll();
-	
-	FacesContext context = FacesContext.getCurrentInstance();
-	context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-		LocalizationManager.getLocalizedText("vehicleTypeDeletedMessage1", vehicleType.getName()),
-		LocalizationManager.getLocalizedText("vehicleTypeDeletedMessage2")));
+        vehicleTypeDAO.delete(vehicleType);
+        vehicleTypes = vehicleTypeDAO.getAll();
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                LocalizationManager.getLocalizedText("vehicleTypeDeletedMessage1", vehicleType.getName()),
+                LocalizationManager.getLocalizedText("vehicleTypeDeletedMessage2")));
     }
-    
+
 }

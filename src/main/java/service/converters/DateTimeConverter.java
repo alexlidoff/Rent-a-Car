@@ -15,22 +15,22 @@ public class DateTimeConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component,
-	    String value) {
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
-	Date date;
-	try {
-	    date = sdf.parse(value);
-	} catch (ParseException e) {
-	    date = null;
-	}
-	return date;
+                              String value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
+        Date date;
+        try {
+            date = sdf.parse(value);
+        } catch (ParseException e) {
+            date = null;
+        }
+        return date;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component,
-	    Object value) {
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
-	return sdf.format(value);
+                              Object value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
+        return sdf.format(value);
     }
 
 }

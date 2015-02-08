@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebFilter;
 public class CharacterEncodingFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response,
-	    FilterChain chain) throws IOException, ServletException {
-	request.setCharacterEncoding("UTF-8");
-	chain.doFilter(request, response);
+                         FilterChain chain) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        chain.doFilter(request, response);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class CharacterEncodingFilter implements Filter {
     }
 
     @Override
-    public void destroy() {	
+    public void destroy() {
     }
 
 }

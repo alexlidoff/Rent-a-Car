@@ -15,13 +15,13 @@ public class VehicleTypeDAO extends GenericDAO<VehicleType, Integer> implements 
     private static final long serialVersionUID = 1695106268683077170L;
 
     public VehicleTypeDAO() {
-	super(VehicleType.class);
+        super(VehicleType.class);
     }
-    
+
     public List<VehicleType> getAll() {
-	TypedQuery<VehicleType> query = em.createNamedQuery("VehicleType.getAll",
-		VehicleType.class);
-	return query.getResultList();
+        TypedQuery<VehicleType> query = em.createNamedQuery("VehicleType.getAll",
+                VehicleType.class);
+        return query.getResultList();
     }
 
 }

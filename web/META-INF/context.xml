@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/">
+
+    <ResourceLink name="jdbc/rentacar"
+                  global="jdbc/rentacar"
+                  auth="Container"
+                  type="javax.sql.DataSource" />
+
+    <Resource name="BeanManager"
+              auth="Container"
+              type="javax.enterprise.inject.spi.BeanManager"
+              factory="org.jboss.weld.resources.ManagerObjectFactory" />
+
 </Context>

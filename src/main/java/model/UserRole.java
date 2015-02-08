@@ -19,11 +19,11 @@ import dao.GetIdAble;
 @Entity
 @Table(name = "roles")
 @NamedQueries({
-    @NamedQuery(name = "UserRole.getByUser",
-    	query = "SELECT ur FROM UserRole AS ur WHERE ur.user = :user")
+        @NamedQuery(name = "UserRole.getByUser",
+                query = "SELECT ur FROM UserRole AS ur WHERE ur.user = :user")
 })
 public class UserRole implements GetIdAble<Integer> {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -34,8 +34,8 @@ public class UserRole implements GetIdAble<Integer> {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    
-    
+
+
     public UserRole() {
     }
 
@@ -44,9 +44,11 @@ public class UserRole implements GetIdAble<Integer> {
     public Integer getId() {
         return id;
     }
+
     public Role getRole() {
         return role;
     }
+
     public User getUser() {
         return user;
     }
@@ -56,11 +58,13 @@ public class UserRole implements GetIdAble<Integer> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public void setRole(Role role) {
         this.role = role;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
-    
+
 }

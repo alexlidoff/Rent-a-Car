@@ -29,55 +29,55 @@ public class VehicleScheduleBean implements Serializable {
     @Inject
     private VehiclesListBean vehiclesListBean;
     private ScheduleModel scheduleModel;
-    
-    
+
+
     public VehicleScheduleBean() {
     }
-    
+
     @PostConstruct
     public void init() {
-	fillSchedule();
+        fillSchedule();
     }
-    
-    
+
+
     //getters
     public ScheduleModel getScheduleModel() {
-	return scheduleModel;
+        return scheduleModel;
     }
-    
-    
+
+
     //setters
     public void setScheduleModel(ScheduleModel scheduleModel) {
-	this.scheduleModel = scheduleModel;
+        this.scheduleModel = scheduleModel;
     }
-    
-    
+
+
     //methods
     public void fillSchedule() {
-	Vehicle vehicle = vehiclesListBean.getVehicleToViewSchedule();
-	if (vehicle == null) {
-	    return;
-	}
-	scheduleModel = new DefaultScheduleModel();
-	List<Application> apps = applicationDAO.getApplicationPeriodsByVehicle(vehicle);
-	if (apps == null) {
-	    return;
-	}
-	for (Application app : apps) {
-	    
-	    //need to set endDate to the end of day
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(app.getEndDate());
-	    cal.set(Calendar.HOUR_OF_DAY, 23);
-	    cal.set(Calendar.MINUTE, 59);
-	    cal.set(Calendar.SECOND, 59);
-	    cal.set(Calendar.MILLISECOND, 999);
-	    
-	    scheduleModel.addEvent(		    
-		    new DefaultScheduleEvent("vehicle busy",
-			    app.getStartDate(), 
-			    cal.getTime()));
-	}
+        Vehicle vehicle = vehiclesListBean.getVehicleToViewSchedule();
+        if (vehicle == null) {
+            return;
+        }
+        scheduleModel = new DefaultScheduleModel();
+        List<Application> apps = applicationDAO.getApplicationPeriodsByVehicle(vehicle);
+        if (apps == null) {
+            return;
+        }
+        for (Application app : apps) {
+
+            //need to set endDate to the end of day
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(app.getEndDate());
+            cal.set(Calendar.HOUR_OF_DAY, 23);
+            cal.set(Calendar.MINUTE, 59);
+            cal.set(Calendar.SECOND, 59);
+            cal.set(Calendar.MILLISECOND, 999);
+
+            scheduleModel.addEvent(
+                    new DefaultScheduleEvent("vehicle busy",
+                            app.getStartDate(),
+                            cal.getTime()));
+        }
     }
 
 }

@@ -13,19 +13,19 @@ public class BooleanConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component,
-	    String value) {
-	return Boolean.valueOf(value);
+                              String value) {
+        return Boolean.valueOf(value);
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component,
-	    Object value) {
-	boolean b = (boolean) value;
-	if (b) {
-	    return LocalizationManager.getLocalizedText("booleanTrue");
-	} else {
-	    return LocalizationManager.getLocalizedText("booleanFalse");
-	}
+                              Object value) {
+        boolean b = (boolean) value;
+        if (b) {
+            return LocalizationManager.getLocalizedText("booleanTrue");
+        } else {
+            return LocalizationManager.getLocalizedText("booleanFalse");
+        }
     }
 
 }

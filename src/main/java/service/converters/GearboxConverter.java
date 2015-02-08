@@ -13,22 +13,22 @@ public class GearboxConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component,
-	    String value) {
-	return Integer.valueOf(value);
+                              String value) {
+        return Integer.valueOf(value);
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component,
-	    Object value) {
-	String gearbox = value.toString();
-	switch (gearbox) {
-	case "1":
-	    return LocalizationManager.getLocalizedText("gearboxManual");
-	case "2":
-	    return LocalizationManager.getLocalizedText("gearboxAutomatic");
-	default:
-	    return "unknown";
-	}
+                              Object value) {
+        String gearbox = value.toString();
+        switch (gearbox) {
+            case "1":
+                return LocalizationManager.getLocalizedText("gearboxManual");
+            case "2":
+                return LocalizationManager.getLocalizedText("gearboxAutomatic");
+            default:
+                return "unknown";
+        }
     }
 
 }
